@@ -1,0 +1,14 @@
+.landing-body{
+    display: flex;
+}
+.post-area{
+     width: fit-content; 
+    text-align: center;
+    border: 1px solid black;
+    margin: 0;
+}
+.post-container{
+    border: 1px solid red;
+    padding: 2rem ;
+    margin: 0.6rem;
+}
