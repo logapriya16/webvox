@@ -1,0 +1,15 @@
+.new-post-text{
+    background-color: transparent;
+    
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    border: none;
+    
+}
+.primary-btn{
+    background-color: var(--secondary-color);
+    border: 0;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
