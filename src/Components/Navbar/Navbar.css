@@ -1,4 +1,22 @@
 .nav-items{
-    padding: 1.5rem;
+    padding: 2rem;
     text-decoration: none;
+    color:var(--primary-color);
+    display: block;
+    
+}
+.active{
+    background-color:var(--third-color);
+    display: block;
+}
+.nav-container{
+    
+}
+.logout{
+    background-color: var(--primary-color);
+    border-radius: 3px;
+    color: black;
+}
+.logout:hover{
+    background-color: var(--secondary-color);
 }

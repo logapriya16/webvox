@@ -1,0 +1,19 @@
+.other-users{
+    width: fit-content;
+    padding: 2rem;
+}
+.each-user{
+    display: flex;
+    padding: 0.4rem;
+}
+.follow-btn{
+    background-color: var(--third-color);
+    border: 0;
+    border-radius: 20%;
+    height: fit-content;
+    padding: 0.9rem;
+}
+.otheruser-pills{
+    
+    text-align: left;
+}

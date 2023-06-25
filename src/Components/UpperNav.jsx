@@ -1,40 +1,36 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { MdOutlineWebhook } from "react-icons/md";
+import "./UpperNav.css"
 export default function UpperNav() {
   const navigate = useNavigate();
   return (
-    <div>
-      <img src="" alt="icon" />
-
+    <div className="upper-nav-container" >
+      <MdOutlineWebhook
+      className="brand-icon" />
       <h1
-        style={{ display: "inline", paddingRight: "12rem", marginLeft: "0rem" }}
-        onClick={() => navigate("/")}
+      className="brand-name"
+         onClick={() => navigate("/")}
       >
         WebVox
       </h1>
       <input
-        style={{
-          display: "inline",
-          padding: "0.5rem",
-          marginRight: "3rem",
-          width: "50%",
-          borderRadius: "20px",
-        }}
+      className="nav-search"
+        
         type="search"
         placeholder="search user"
       />
-      <div style={{ display: "inline" }}>
-        <p style={{ display: "inline" }} onClick={() => navigate("/")}>
+      <div className="nav-elements">
+        <span  onClick={() => navigate("/")}>
           Home
-        </p>
-        <p
+        </span>
+        <span
           style={{ display: "inline", padding: "1rem" }}
           onClick={() => navigate("/profile")}
         >
           user image
-        </p>
-        <p style={{ display: "inline" }}> B/D mode</p>
+        </span>
+        <span style={{ display: "inline" }}> B/D mode</span>
       </div>
     </div>
   );

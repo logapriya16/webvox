@@ -1,0 +1,21 @@
+
+.brand-name{
+    display: inline;
+    color:var(--primary-color);
+}
+.brand-icon{
+    font-size: 2.5rem;
+    padding: 0.5rem;
+    display: inline;
+}
+.nav-search{
+    display: inline;
+    padding: 0.5rem;
+    width: 50%;
+    border-radius: 20px;
+    margin:2rem;
+}
+.nav-elements{
+    display: inline;
+    color: var(--primary-color);
+}
