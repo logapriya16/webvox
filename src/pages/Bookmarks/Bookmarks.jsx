@@ -4,15 +4,13 @@ import Navbar from "../../Components/Navbar/Navbar";
 import UpperNav from "../../Components/UpperNav";
 import { BookmarkContext } from "../../Contexts/BookmarkContext";
 import { PostContext } from "../../Contexts/PostContext";
+import UserList from "../../Components/UserList/UserList";
+
 export default function Bookmarks() {
   const { bookmarkState, removeFromBookmark } = useContext(BookmarkContext);
   const { postState } = useContext(PostContext);
   const Posts = postState.allpost;
   const Bookmarks = bookmarkState.curr_user_bookmarks;
-  console.log(Posts);
-  console.log(Bookmarks.map((id) => id));
-
-  //console.log(bookmarkItem)
   return (
     <div>
       <UpperNav />
@@ -46,7 +44,9 @@ export default function Bookmarks() {
             </ul>
           )}
         </div>
-        <div className="users-list"></div>
+        <div className="users-list">
+          <UserList/>
+        </div>
       </div>
     </div>
   );

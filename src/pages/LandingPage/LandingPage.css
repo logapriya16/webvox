@@ -1,14 +1,25 @@
 .landing-body{
     display: flex;
 }
+
+.new-post{
+    border: 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
 .post-area{
      width: fit-content; 
     text-align: center;
-    border: 1px solid black;
+    
     margin: 0;
 }
 .post-container{
     border: 1px solid red;
     padding: 2rem ;
     margin: 0.6rem;
+}
+.post-upper{
+    display: flex;
 }

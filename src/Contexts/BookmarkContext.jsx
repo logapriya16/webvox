@@ -20,6 +20,7 @@ export default function BookmarkProvider({ children }) {
         headers: { authorization: curr_token },
       });
       const temp = await response.json();
+    
       if (response.status === 200) {
         toast.info("Post added to Bookmark", {
           position: "top-right",
@@ -47,14 +48,12 @@ export default function BookmarkProvider({ children }) {
         headers: { authorization: curr_token },
       });
       console.log(response.status);
-      console.log(await response.json());
+      //console.log(await response.json());
       const temp = await response.json();
-      if (response.status === 200) {
         bookmarkDispatch({
           type: "curr_user_bookmark",
           payload: temp.bookmarks,
         });
-
         toast.warning("Post removed from bookmark", {
           position: "top-right",
           autoClose: 5000,
@@ -65,12 +64,11 @@ export default function BookmarkProvider({ children }) {
           progress: undefined,
           theme: "colored",
         });
-      }
     } catch (error) {
       console.log("error in removeing bookmark", error);
     }
-    console.log(bookmarkState);
   };
+ 
   return (
     <BookmarkContext.Provider
       value={{ addToBookmark, bookmarkState, removeFromBookmark }}

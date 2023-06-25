@@ -34,7 +34,7 @@ function Login(){
     const handleTestUserLogin=()=>{
         setUserData(testUserData);
         Login(testUserData);
-        //navigate(location?.state?.from?.pathname || "/products")
+        
     }
 
     return (
