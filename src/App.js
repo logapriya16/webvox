@@ -10,7 +10,6 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import Profile from "./pages/Profile/Profile";
 import RequirsAuth from "./Components/RequirsAuth";
 
-
 function App() {
   return (
     <div className="App">

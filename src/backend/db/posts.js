@@ -1,5 +1,4 @@
 import { v4 as uuid } from "uuid";
-import { formatDate } from "../utils/authUtils";
 
 /**
  * Posts can be added here.
@@ -16,9 +15,9 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "adarshbalika",
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
+    username: "loga@1612",
+    createdAt: "2023-05-12",
+    updatedAt: new Date(),
   },
   {
     _id: uuid(),
@@ -29,8 +28,8 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "shubhamsoni",
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
+    username: "priya@1612",
+    createdAt: "2023-04-12",
+    updatedAt: new Date(),
   },
 ];
