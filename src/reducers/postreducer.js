@@ -4,8 +4,8 @@ export const postReducer = (state, action) => {
       return { ...state, isPostLoading: action.payload };
     case "set_post":
       return { ...state, allpost: action.payload };
-    case "set_bookmarks":
-      return { ...state };
+    case "set_curr_user_post":
+      return { ...state, curr_user_post: action.payload };
     default:
       return state;
   }
