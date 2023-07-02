@@ -5,9 +5,10 @@ import UpperNav from "../../Components/UpperNav";
 import { BookmarkContext } from "../../Contexts/BookmarkContext";
 import { PostContext } from "../../Contexts/PostContext";
 import UserList from "../../Components/UserList/UserList";
+import PostDisplay from "../../Components/PostDisplay/PostDisplay";
 
 export default function Bookmarks() {
-  const { bookmarkState, removeFromBookmark } = useContext(BookmarkContext);
+  const { bookmarkState} = useContext(BookmarkContext);
   const { postState } = useContext(PostContext);
   const Posts = postState.allpost;
   const Bookmarks = bookmarkState.curr_user_bookmarks;
@@ -23,20 +24,12 @@ export default function Bookmarks() {
             <p>No Bookmarks Added</p>
           ) : (
             <ul>
-              {Posts.map((post) => {
-                const bookmarkItem = Bookmarks.find(
-                  (item) => item === post._id
+              {Bookmarks.map((post) => {
+                const bookmarkItem = Posts.find(
+                  (item) => item._id === post
                 );
-                return post._id === bookmarkItem ? (
-                  <li type="none" key={post._id}>
-                    <span>{post.username}</span>
-                    <span>{post.createdAt}</span>
-                    <p>@{post.username}</p>
-                    <p>{post.content}</p>
-                    <button onClick={(e) => removeFromBookmark(post._id)}>
-                      remove
-                    </button>
-                  </li>
+                return bookmarkItem ? (
+                  <PostDisplay item={bookmarkItem} />
                 ) : (
                   <div></div>
                 );
@@ -45,7 +38,7 @@ export default function Bookmarks() {
           )}
         </div>
         <div className="users-list">
-          <UserList/>
+          <UserList />
         </div>
       </div>
     </div>

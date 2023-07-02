@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import "./Explore.css";
 import UpperNav from "../../Components/UpperNav";
 import UserList from "../../Components/UserList/UserList";
+import PostDisplay from "../../Components/PostDisplay/PostDisplay";
+import { PostContext } from "../../Contexts/PostContext";
+
 export default function Explore() {
+  const { postState } = useContext(PostContext);
   return (
     <div>
       <UpperNav />
@@ -11,9 +15,13 @@ export default function Explore() {
         <div className="side-nav">
           <Navbar />
         </div>
-        <div className="explore-area"></div>
+        <div className="explore-area">
+          {postState.allpost.map((post) => (
+            <PostDisplay item={post} />
+          ))}
+        </div>
         <div className="users-list">
-        <UserList/>
+          <UserList />
         </div>
       </div>
     </div>
