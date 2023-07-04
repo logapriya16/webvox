@@ -8,10 +8,12 @@ import Newpost from "../../Components/NewPost/Newpost";
 import { UserContext } from "../../Contexts/UserContext";
 import PostDisplay from "../../Components/PostDisplay/PostDisplay";
 import { PostContext } from "../../Contexts/PostContext";
+import { useNavigate } from "react-router-dom";
 export default function LandingPage() {
-  const { active_user,  } = useContext(AuhtContext);
-  const {avatar} =useContext(UserContext)
-const {postState} = useContext(PostContext)
+  const { active_user,authState } = useContext(AuhtContext);
+  const { avatar } = useContext(UserContext);
+  const { postState } = useContext(PostContext);
+  const navigate = useNavigate()
   return (
     <div>
       <UpperNav />
@@ -22,9 +24,9 @@ const {postState} = useContext(PostContext)
           </div>
           <div className="post-area">
             <div className="new-post">
-              <div>
+              <div onClick={()=>navigate('/profile')}>
                 <img
-                  src={avatar}
+                  src={authState.avatar}
                   alt=""
                   height="40px"
                   style={{ borderRadius: "50%" }}
@@ -35,8 +37,18 @@ const {postState} = useContext(PostContext)
                 <Newpost />
               </div>
             </div>
-              {postState.allpost.map((post)=><PostDisplay item={post}/>)}
-            
+            {postState.allpost.map((post) =>
+              post.username === active_user.username ? (
+                <PostDisplay item={post} />
+              ) : null
+            )}
+            {active_user.following.map((user) => {
+              const isFollower = postState.allpost.find(
+                (post) => post.username === user.username
+              );
+
+              return isFollower ? <PostDisplay item={isFollower} /> : null;
+            })}
           </div>
           <div className="users-list">
             <UserList />
