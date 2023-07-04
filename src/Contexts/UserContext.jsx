@@ -1,8 +1,14 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+
 export const UserContext = createContext();
 export default function UserProvider({ children }) {
   const [users, setUsers] = useState([]);
+  const [userbio, Setuserbio] = useState({
+    profileURL: "",
+    profileBio: "",
+    Profilehobbies: "",
+  });
   const getallusers = async () => {
     try {
       const response = await axios.get("/api/users", {});
@@ -14,11 +20,12 @@ export default function UserProvider({ children }) {
       console.log("eror while fetching users from BD", error);
     }
   };
-  //    console.log(users)
   useEffect(() => {
     getallusers();
   }, []);
   return (
-    <UserContext.Provider value={{ users }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ users, userbio, Setuserbio }}>
+      {children}
+    </UserContext.Provider>
   );
 }
