@@ -11,14 +11,16 @@ import { AuhtContext } from "./AuthContext";
 import { toast } from "react-toastify";
 export const PostContext = createContext();
 export default function Postprovider({ children }) {
-  const { curr_token } = useContext(AuhtContext);
+  const { curr_token, active_user } = useContext(AuhtContext);
   const postInitial = {
     isPostLoading: false,
     allpost: [],
+    curr_user_post: [],
+    curr_user_following_posts:[]
   };
   const [displayedit, setDisplatedit] = useState(false);
   const [postText, setPostText] = useState("");
-
+  const [edittext, setEdittext] = useState("");
   const [postState, postDispatch] = useReducer(postReducer, postInitial);
 
   //api call to fetch all posts
@@ -33,6 +35,26 @@ export default function Postprovider({ children }) {
     }
   };
 
+  //api call to fetch posts of active user
+  const getcurruserPost = async (us) => {
+    postDispatch({ type: "loading_post", payload: true });
+    try {
+      const response = await fetch(`/api/posts/user/${us}`, {
+        method: "GET",
+      });
+      const temp = await response.json();
+      if (response.status === 200) {
+        postDispatch({ type: "set_curr_user_post", payload: temp.posts });
+      }
+      //console.log(temp);
+    } catch (error) {
+      console.log("error in fetching curr user post", error);
+    }
+  };
+
+  //api call to get the posts of users followed by current users
+  
+  //api call for creating the post
   const createPost = async (posttext, e) => {
     postDispatch({ type: "loading_post", payload: true });
     try {
@@ -65,6 +87,9 @@ export default function Postprovider({ children }) {
       console.log("error in creating new post", error);
     }
   };
+  
+  
+  //api call to like a post
   const LikePost = async (id) => {
     postDispatch({ type: "loading_post", payload: true });
     try {
@@ -83,6 +108,9 @@ export default function Postprovider({ children }) {
       console.log("error in liking a post", error);
     }
   };
+  
+  
+  //api call to unlike a post
   const DislikePost = async (id) => {
     postDispatch({ type: "loading_post", payload: true });
     try {
@@ -99,7 +127,10 @@ export default function Postprovider({ children }) {
       console.log("error in disliking the post", error);
     }
   };
-  const postDelete= async (id) => {
+
+
+  //api call to delete a post
+  const postDelete = async (id) => {
     postDispatch({ type: "loading_post", payload: false });
 
     try {
@@ -116,30 +147,48 @@ export default function Postprovider({ children }) {
       console.log("error in  deleting the post", error);
     }
   };
-  const postEdit=()=>{}
+
+
+  //api call to edit a post
+  const postEdit = async (id, content) => {
+    try {
+      const response = await fetch(`/api/posts/edit/${id}`, {
+        method: "POST",
+        headers: {
+          authorization: curr_token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ postData: { content } }),
+      });
+      const data = await response.json();
+      postDispatch({ type: "set_post", payload: data.posts });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  //api call to sort  based on trending post
   const TrendingHandler = () => {
-    console.log(postState.allpost);
     const temp = postState.allpost.sort(
       (a, b) => b.likes.likeCount - a.likes.likeCount
     );
     return postDispatch({ type: "set_post", payload: temp });
   };
+
+
+  //api call to sort based on latest upload
   const LatestHandler = () => {
-    console.log(postState.allpost.map((item) => item.createdAt));
-    const sortFunction = (a, b) => {
-      const d1 = new Date(a.createdAt);
-      const d2 = new Date(b.createdAt);
-      console.log(d1, d2);
-      return d1 - d2;
-    };
-    const temp = postState.allpost.sort(sortFunction);
-    console.log(temp);
-    console.log(temp.sort(sortFunction));
+    const temp = postState.allpost.sort(
+      (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
+    );
+    return postDispatch({ type: "set_post", payload: temp });
   };
+
   useEffect(() => {
     getAllPosts();
+    getcurruserPost(active_user?.username);
   }, []);
-
   return (
     <PostContext.Provider
       value={{
@@ -154,7 +203,10 @@ export default function Postprovider({ children }) {
         setPostText,
         LikePost,
         DislikePost,
-        postEdit
+        postEdit,
+        getcurruserPost,
+        edittext,
+        setEdittext,
       }}
     >
       {children}
