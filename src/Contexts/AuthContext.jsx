@@ -7,7 +7,6 @@ import axios from "axios";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import pic1 from "../imgs/pic1.jpg";
 import pic2 from "../imgs/pic2.jpg";
 import pic3 from "../imgs/pic3.jpg";
 import pic4 from "../imgs/pic4.jpg";
@@ -188,7 +187,7 @@ function AuthProvider({ children }) {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const imagesarray = [pic1, pic2, pic3, pic4, pic5, pic6];
+  const imagesarray = [ pic2, pic3, pic4, pic5, pic6];
   const showModal = () => {
     setIsModalOpen(true);
   };
