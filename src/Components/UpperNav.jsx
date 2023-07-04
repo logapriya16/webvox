@@ -1,42 +1,37 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineWebhook } from "react-icons/md";
-import {ImHome} from "react-icons/im"
-import "./UpperNav.css"
-import { UserContext } from "../Contexts/UserContext";
-import { useContext } from "react"
+import { ImHome } from "react-icons/im";
+import "./UpperNav.css";
+import { useContext } from "react";
 import { AuhtContext } from "../Contexts/AuthContext";
-import ProfileComponent from "./UserprofileComponet/UserProfileComponent";
 
 export default function UpperNav() {
   const navigate = useNavigate();
-  const {avatar} =useContext(UserContext)
-  const {active_user} = useContext(AuhtContext)
+  const { active_user, authState } = useContext(AuhtContext);
   return (
-    <div className="upper-nav-container" >
-      <MdOutlineWebhook
-      className="brand-icon" />
-      <h1
-      className="brand-name"
-         onClick={() => navigate("/")}
-      >
+    <div className="upper-nav-container">
+      <MdOutlineWebhook className="brand-icon" />
+      <h1 className="brand-name" onClick={() => navigate("/")}>
         WebVox
       </h1>
-      <input
-      className="nav-search"
-        
-        type="search"
-        placeholder="search user"
-      />
+      <input className="nav-search" type="search" placeholder="search user" />
       <div className="nav-elements">
-        <span  onClick={() => navigate("/")}>
-          <ImHome/>
+        <span onClick={() => navigate("/")}>
+          <ImHome />
         </span>
         <span
-          style={{ display: "inline", padding: "1rem",cursor:"pointer" }}
-          onClick={() => {navigate("/profile"); ProfileComponent(active_user.id) }}
+          style={{ display: "inline", padding: "1rem", cursor: "pointer" }}
+          onClick={() => {
+            navigate("/profile");
+          }}
         >
-          <img src={avatar} alt="" height="40px" style={{borderRadius:"50%"}}/>
+          <img
+            src={authState.avatar}
+            alt=""
+            height="40px"
+            style={{ borderRadius: "50%" }}
+          />
         </span>
         <span style={{ display: "inline" }}> B/D mode</span>
       </div>
