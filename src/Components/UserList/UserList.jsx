@@ -6,11 +6,12 @@ import { PostContext } from "../../Contexts/PostContext";
 import { HiTrendingUp } from "react-icons/hi";
 import { BsFillPersonFill } from "react-icons/bs";
 import { FaSort } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function UserList() {
   const { TrendingHandler, LatestHandler } = useContext(PostContext);
   const { users } = useContext(UserContext);
-  const { active_user } = useContext(AuhtContext);
+  const { active_user, followUser, UnfollowUser } = useContext(AuhtContext);
   return (
     <div className="other-users">
       <div>
@@ -23,29 +24,112 @@ export default function UserList() {
           Latest
         </span>
       </div>
-      <h4 style={{ padding: "0.9rem" }}>people you might know</h4>
       <ul>
+        <h4 style={{ padding: "0.9rem" }}> people you might know</h4>
         {users
-          .filter((person) => person._id !== active_user._id)
-          .map((item) => (
-            <div>
-              <li type="none" key={item._id} className="each-user">
-                <p>
-                  <BsFillPersonFill className="avatar" />
-                </p>
-                <div>
-                  <p className="otheruser-pills">
-                    {item.firstName}
-                    {item.lastName}
-                  </p>
+          .filter(
+            (person) =>
+              person._id !== active_user._id &&
+              person.username !== active_user.username
+          )
+          .map((item) => {
+            return (
+              <div>
+                {active_user?.following?.find(
+                  ({ username }) => username === item.username
+                ) ? (
+                  <div></div>
+                ) : (
+                  <div>
+                    <li type="none" key={item._id} className="each-user">
+                      <p>
+                        <BsFillPersonFill className="avatar" />
+                      </p>
+                      <div>
+                        <p className="otheruser-pills">
+                          {item.firstName}
+                          {item.lastName}
+                        </p>
+                        <p className="otheruser-pills">{item.username}</p>
+                      </div>
+                      <button
+                        className="follow-btn"
+                        onClick={() => {
+                          followUser(item._id);
+                          toast.info("new user followed", {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                          });
+                        }}
+                      >
+                        +Follow
+                      </button>
+                    </li>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+      </ul>
 
-                  <p className="otheruser-pills">{item.username}</p>
-                </div>
-                <button className="follow-btn">+Follow</button>
-              </li>
-              <hr />
-            </div>
-          ))}
+      <ul>
+        <h4 style={{ padding: "0.9rem" }}>people you already know</h4>
+        {users
+          .filter(
+            (person) =>
+              person._id !== active_user._id &&
+              person.username !== active_user.username
+          )
+          .map((item) => {
+            return (
+              <div>
+                {active_user?.following?.find(
+                  ({ username }) => username === item.username
+                ) ? (
+                  <div>
+                    <li type="none" key={item._id} className="each-user">
+                      <p>
+                        <BsFillPersonFill className="avatar" />
+                      </p>
+                      <div>
+                        <p className="otheruser-pills">
+                          {item.firstName}
+                          {item.lastName}
+                        </p>
+                        <p className="otheruser-pills">{item.username}</p>
+                      </div>
+                      <button
+                        className="follow-btn"
+                        onClick={() => {
+                          UnfollowUser(item._id);
+                          toast.info(" user Unfollowed", {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                          });
+                        }}
+                      >
+                        Unfollow
+                      </button>
+                    </li>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+              </div>
+            );
+          })}
       </ul>
     </div>
   );

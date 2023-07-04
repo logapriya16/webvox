@@ -33,7 +33,7 @@ export default function PostDisplay({ item }) {
   const items = [
     {
       key: "1",
-      label: <p onClick={()=>postEdit()}>Edit</p>,
+      label: <p onClick={() => postEdit()}>Edit</p>,
     },
     {
       key: "2",
@@ -164,9 +164,7 @@ export default function PostDisplay({ item }) {
                 )}
               </div>
             </li>
-          ) : (
-            <div></div>
-          )
+          ) : null
         )}
       </ul>
     </div>

@@ -5,6 +5,7 @@
 .each-user {
   display: flex;
   padding: 0.4rem;
+  justify-content:space-between;
 }
 .follow-btn {
   background-color: var(--third-color);

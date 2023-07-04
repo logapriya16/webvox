@@ -20,7 +20,7 @@ export default function BookmarkProvider({ children }) {
         headers: { authorization: curr_token },
       });
       const temp = await response.json();
-    
+        //console.log(temp)
       if (response.status === 200) {
         toast.info("Post added to Bookmark", {
           position: "top-right",
@@ -36,6 +36,7 @@ export default function BookmarkProvider({ children }) {
           type: "curr_user_bookmark",
           payload: temp.bookmarks,
         });
+        
       }
     } catch (error) {
       console.log("error in adding to bookmark", error);
@@ -50,25 +51,25 @@ export default function BookmarkProvider({ children }) {
       console.log(response.status);
       //console.log(await response.json());
       const temp = await response.json();
-        bookmarkDispatch({
-          type: "curr_user_bookmark",
-          payload: temp.bookmarks,
-        });
-        toast.warning("Post removed from bookmark", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+      bookmarkDispatch({
+        type: "curr_user_bookmark",
+        payload: temp.bookmarks,
+      });
+      toast.warning("Post removed from bookmark", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } catch (error) {
       console.log("error in removeing bookmark", error);
     }
   };
- 
+
   return (
     <BookmarkContext.Provider
       value={{ addToBookmark, bookmarkState, removeFromBookmark }}

@@ -1,0 +1,33 @@
+.curr-us-pro {
+    padding: 0.8rem;
+}
+.profile-upper {
+  display: flex;
+}
+.profile-middle {
+  text-align: left;
+}
+.user-info {
+  padding: 0.5rem;
+  width: fit-content;
+}
+.user-info-lable {
+  padding: 1rem;
+  margin: 1rem;
+}
+.user-info-input {
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
+.bio-btn {
+  background-color: var(--secondary-color);
+  border: 0;
+  padding: 0.5rem;
+  margin: 1rem;
+  border-radius: 2px;
+  color: white;
+}
+.profile-followers {
+  padding: 1rem;
+  display: flex;
+}
