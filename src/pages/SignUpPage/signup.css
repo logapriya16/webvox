@@ -3,13 +3,14 @@
   margin: 12rem;
   border: 1px solid var(--primary-color);
   margin-top: 3rem;
+  overflow: hidden;
 }
 .signup-container {
   display: flex;
   flex-direction: column;
 }
 .content-signup h2 {
-  font-size: 8rem;
+  font-size: 6rem;
   margin: 0;
 }
 .content-signup h2:nth-child(1) {

@@ -35,8 +35,8 @@ function SignUp() {
           <h2>Webvox</h2>
         </div> 
       <div className="signup-card">
-        <div>
-          <label htmlFor="first-name">Firstname : </label>
+        <div className="auth-element">
+          <label className="auth-lable" htmlFor="first-name">Firstname : </label>
           <input
             className="auth-input "
             id="first-name"
@@ -51,8 +51,8 @@ function SignUp() {
             }
           />
         </div>
-        <div>
-          <label htmlFor="last-name">Lastname : </label>
+        <div className="auth-element">
+          <label htmlFor="last-name" className="auth-lable">Lastname : </label>
           <input
             className="auth-input "
             id="last-name"
@@ -67,8 +67,8 @@ function SignUp() {
             }
           />
         </div>
-        <div>
-          <label htmlFor="e-mail">Email : </label>
+        <div className="auth-element">
+          <label htmlFor="e-mail" className="auth-lable">Email : </label>
           <input
             className="auth-input "
             id="e-mail"
@@ -80,8 +80,8 @@ function SignUp() {
             }
           />
         </div>
-        <div>
-          <label htmlFor="username">Username : </label>
+        <div className="auth-element">
+          <label htmlFor="username" className="auth-lable">Username : </label>
           <input
             className="auth-input "
             id="username"
@@ -96,8 +96,8 @@ function SignUp() {
             }
           />
         </div>
-        <div>
-          <label htmlFor="password"> Password : </label>
+        <div className="auth-element">
+          <label htmlFor="password" className="auth-lable"> Password : </label>
           <input
             className="auth-input "
             id="password"
@@ -112,7 +112,7 @@ function SignUp() {
             }
           />
         </div>
-        <div>
+        <div >
           <button
           className="auth-btn"
           onClick={() => handleSignUp()}>Sign Up</button>

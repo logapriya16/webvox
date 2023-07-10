@@ -39,14 +39,13 @@ function Login() {
 
   return (
     <div className="login-container">
-         <div className="content">
-          <h2>Webvox</h2>
-        </div> 
+      <div className="content">
+        <h2>Webvox</h2>
+      </div>
       <div className="login-card">
-        <div className="login-element">
-          <label htmlFor="username"></label>
+        <div className="auth-element">
+          <label htmlFor="username" className="auth-lable">Username</label>
           <div style={{ display: "flex" }}>
-            <AiOutlineUser />
             <input
               className="auth-input"
               type="login"
@@ -57,12 +56,12 @@ function Login() {
                 setUserData((prevs) => ({ ...prevs, username: e.target.value }))
               }
             />
+            <AiOutlineUser />
           </div>
         </div>
-        <div className="login-element">
-          <label htmlFor="password"></label>
+        <div className="auth-element">
+          <label htmlFor="password" className="auth-lable">Password</label>
           <div style={{ display: "flex" }}>
-            <RiLockPasswordFill />
             <input
               className="auth-input"
               type="password"
@@ -73,9 +72,10 @@ function Login() {
                 setUserData((prevs) => ({ ...prevs, password: e.target.value }))
               }
             />
+            <RiLockPasswordFill />
           </div>
         </div>
-        <div className="login-buttons">
+        <div className="auth-buttons">
           <button className="auth-btn" onClick={() => handleLogin()}>
             Login
           </button>

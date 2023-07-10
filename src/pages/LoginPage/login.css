@@ -9,11 +9,12 @@
   border: 1px solid var(--primary-color);
 }
 .content h2 {
-  font-size: 8rem;
+  font-size: 6rem;
   margin: 0;
 }
 .content h2:nth-child(1) {
   color: transparent;
+  
   -webkit-text-stroke: 2px var(--secondary-color);
 }
 
@@ -54,18 +55,27 @@
   padding-top: 1.5rem;
 
 }
+.auth-element{
+  display: flex;
+  padding: 0.5rem;
+  width: 100%;
+  justify-content:space-evenly;
+  margin: 0.4rem;
+}
+.auth-lable{
+  font-size: 20px;
+  
+  
+}
 .auth-input {
   margin: 0.5rem;
-  transform: translateY(-50%);
   font-size: 20px;
   height: 100%;
   width: 95%;
   border: none;
   padding: 0.5rem;
-  margin-top: 1rem;
   outline: none;
-  transition: all 0.2s ease;
-  border-bottom: 1px solid var(--third-color);
+  border-bottom: 1.5px solid var(--secondary-color);
 }
 .auth-btn {
   background-color: var(--primary-color);

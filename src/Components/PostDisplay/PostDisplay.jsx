@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { BsHeart, BsBookmark, BsBookmarksFill } from "react-icons/bs";
 import { CiCircleRemove } from "react-icons/ci";
 import { PiHeartFill } from "react-icons/pi";
+import {GrShareOption} from "react-icons/gr"
+import {AiOutlineComment} from "react-icons/ai"
 import { BiSolidMessageEdit } from "react-icons/bi";
 import { AuhtContext } from "../../Contexts/AuthContext";
 import { toast } from "react-toastify";
@@ -171,46 +173,54 @@ export default function PostDisplay({ item }) {
                     width="450px"
                   />
                 ) : null}
-                <p>{post.content}</p>
               </div>
               <hr />
-              <div className="post-lower">
-                {post.likes.likedBy.length > 0 ? (
-                  post.likes.likedBy.map(
-                    (likeperson) => likeperson._id === active_user._id
-                  ) ? (
-                    <span onClick={() => DislikePost(post._id)}>
-                      <PiHeartFill />
-                      <span>{post.likes.likeCount}</span>
-                    </span>
+              <div>
+                <div className="post-lower">
+                  {post.likes.likedBy.length > 0 ? (
+                    post.likes.likedBy.map(
+                      (likeperson) => likeperson._id === active_user._id
+                    ) ? (
+                      <span onClick={() => DislikePost(post._id)}>
+                        <PiHeartFill />
+                        <span>{post.likes.likeCount}</span>
+                      </span>
+                    ) : (
+                      <span onClick={() => LikePost(post._id)}>
+                        <BsHeart />
+                        <span>{post.likes.likeCount}</span>
+                      </span>
+                    )
                   ) : (
                     <span onClick={() => LikePost(post._id)}>
                       <BsHeart />
                       <span>{post.likes.likeCount}</span>
                     </span>
-                  )
-                ) : (
-                  <span onClick={() => LikePost(post._id)}>
-                    <BsHeart />
-                    <span>{post.likes.likeCount}</span>
-                  </span>
-                )}
+                  )}
 
-                {bookmarkState.curr_user_bookmarks.find(
-                  (bookmarkedpost) => bookmarkedpost === post._id
-                ) ? (
-                  <span onClick={() => removeFromBookmark(post._id)}>
-                    <BsBookmarksFill />
+                  {bookmarkState.curr_user_bookmarks.find(
+                    (bookmarkedpost) => bookmarkedpost === post._id
+                  ) ? (
+                    <span onClick={() => removeFromBookmark(post._id)}>
+                      <BsBookmarksFill />
+                    </span>
+                  ) : (
+                    <span
+                      onClick={() => {
+                        addToBookmark(post._id);
+                      }}
+                    >
+                      <BsBookmark />
+                    </span>
+                  )}
+                  <span>
+                    <GrShareOption/>
                   </span>
-                ) : (
-                  <span
-                    onClick={() => {
-                      addToBookmark(post._id);
-                    }}
-                  >
-                    <BsBookmark />
+                  <span>
+                    <AiOutlineComment/>
                   </span>
-                )}
+                </div>
+                <p className="post-content">{post.content}</p>
               </div>
             </li>
           ) : null
