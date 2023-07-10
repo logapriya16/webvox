@@ -1,14 +1,16 @@
-import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import SignUp from "./pages/SignUpPage/signup";
-import Login from "./pages/LoginPage/login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
+
+import SignUp from "./pages/SignUpPage/signup";
+import Login from "./pages/LoginPage/login";
 import Explore from "./pages/ExplorePage/Explore";
 import Bookmarks from "./pages/Bookmarks/Bookmarks";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Profile from "./pages/Profile/Profile";
 import RequirsAuth from "./Components/RequirsAuth";
+import OthersProfile from "./pages/OthersProfile/OthersProfile";
 
 function App() {
   return (
@@ -36,7 +38,6 @@ function App() {
           path="/bookmark"
           element={
             <RequirsAuth>
-              {" "}
               <Bookmarks />
             </RequirsAuth>
           }
@@ -49,7 +50,14 @@ function App() {
             </RequirsAuth>
           }
         />
-
+        <Route
+          path="/profile/:profileID"
+          element={
+            <RequirsAuth>
+              <OthersProfile />
+            </RequirsAuth>
+          }
+        />
       </Routes>
       <ToastContainer />
     </div>

@@ -4,14 +4,18 @@ import { UserContext } from "../../Contexts/UserContext";
 import "./UserList.css";
 import { PostContext } from "../../Contexts/PostContext";
 import { HiTrendingUp } from "react-icons/hi";
-import { BsFillPersonFill } from "react-icons/bs";
 import { FaSort } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function UserList() {
   const { TrendingHandler, LatestHandler } = useContext(PostContext);
   const { users } = useContext(UserContext);
   const { active_user, followUser, UnfollowUser } = useContext(AuhtContext);
+  const navigate = useNavigate();
+  const Isfollowing = (item) =>
+    active_user?.following.find((person) => person.username === item)
+      ? true
+      : false;
   return (
     <div className="other-users">
       <div>
@@ -27,106 +31,58 @@ export default function UserList() {
       <ul>
         <h4 style={{ padding: "0.9rem" }}> people you might know</h4>
         {users
-          .filter(
-            (person) =>
-              person._id !== active_user._id &&
-              person.username !== active_user.username
-          )
+          .filter((person) => person.username !== active_user.username)
           .map((item) => {
             return (
               <div>
-                {active_user?.following?.find(
-                  ({ username }) => username === item.username
-                ) ? (
-                  <div></div>
-                ) : (
+                <li type="none" key={item._id} className="each-user">
+                  <p>
+                    <img
+                      src={item.avatar}
+                      alt=""
+                      height="50px"
+                      className="cursor"
+                      onClick={() => navigate(`/profile/${item._id}`)}
+                      style={{ borderRadius: "50%", margin: "0.7rem" }}
+                    />
+                  </p>
                   <div>
-                    <li type="none" key={item._id} className="each-user">
-                      <p>
-                        <BsFillPersonFill className="avatar" />
-                      </p>
-                      <div>
-                        <p className="otheruser-pills">
-                          {item.firstName}
-                          {item.lastName}
-                        </p>
-                        <p className="otheruser-pills">{item.username}</p>
-                      </div>
-                      <button
-                        className="follow-btn"
-                        onClick={() => {
-                          followUser(item._id);
-                          toast.info("new user followed", {
-                            position: "top-right",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "colored",
-                          });
-                        }}
-                      >
-                        +Follow
-                      </button>
-                    </li>
+                    <p
+                      className="otheruser-pills cursor"
+                      onClick={() => navigate(`/profile/${item._id}`)}
+                    >
+                      {item.firstName}
+                      {item.lastName}
+                    </p>
+                    <p
+                      className="otheruser-pills cursor"
+                      onClick={() => navigate(`/profile/${item._id}`)}
+                    >
+                      {item.username}
+                    </p>
                   </div>
-                )}
-              </div>
-            );
-          })}
-      </ul>
-
-      <ul>
-        <h4 style={{ padding: "0.9rem" }}>people you already know</h4>
-        {users
-          .filter(
-            (person) =>
-              person._id !== active_user._id &&
-              person.username !== active_user.username
-          )
-          .map((item) => {
-            return (
-              <div>
-                {active_user?.following?.find(
-                  ({ username }) => username === item.username
-                ) ? (
                   <div>
-                    <li type="none" key={item._id} className="each-user">
-                      <p>
-                        <BsFillPersonFill className="avatar" />
-                      </p>
-                      <div>
-                        <p className="otheruser-pills">
-                          {item.firstName}
-                          {item.lastName}
-                        </p>
-                        <p className="otheruser-pills">{item.username}</p>
-                      </div>
+                    {Isfollowing(item.username) ? (
                       <button
                         className="follow-btn"
                         onClick={() => {
                           UnfollowUser(item._id);
-                          toast.info(" user Unfollowed", {
-                            position: "top-right",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "colored",
-                          });
                         }}
                       >
-                        Unfollow
+                        UnFollow
                       </button>
-                    </li>
+                    ) : (
+                      <button
+                        className="follow-btn"
+                        onClick={() => {
+                          followUser(item._id);
+                        }}
+                      >
+                        +Follow
+                      </button>
+                    )}
                   </div>
-                ) : (
-                  <div></div>
-                )}
+                </li>
               </div>
             );
           })}

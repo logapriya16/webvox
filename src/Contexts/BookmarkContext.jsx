@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useReducer } from "react";
+
 import { boookmarkReducer } from "../reducers/bookmarkReducer";
 import { AuhtContext } from "./AuthContext";
-import { toast } from "react-toastify";
+import { ReactToastify } from "../Utils/ReactToastify";
+
+
 export const BookmarkContext = createContext();
 export default function BookmarkProvider({ children }) {
   const { curr_token } = useContext(AuhtContext);
@@ -22,16 +25,7 @@ export default function BookmarkProvider({ children }) {
       const temp = await response.json();
         //console.log(temp)
       if (response.status === 200) {
-        toast.info("Post added to Bookmark", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        ReactToastify("Added to Bookmark", "info");
         bookmarkDispatch({
           type: "curr_user_bookmark",
           payload: temp.bookmarks,
@@ -40,6 +34,7 @@ export default function BookmarkProvider({ children }) {
       }
     } catch (error) {
       console.log("error in adding to bookmark", error);
+      error?.response?.data?.errors?.map((e) => ReactToastify(e, "error"));
     }
   };
   const removeFromBookmark = async (id) => {
@@ -55,18 +50,11 @@ export default function BookmarkProvider({ children }) {
         type: "curr_user_bookmark",
         payload: temp.bookmarks,
       });
-      toast.warning("Post removed from bookmark", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      ReactToastify("Removed from Bookmark", "info");
+      
     } catch (error) {
       console.log("error in removeing bookmark", error);
+      error?.response?.data?.errors?.map((e) => ReactToastify(e, "error"));
     }
   };
 

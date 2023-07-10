@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+
 import { MdOutlineWebhook } from "react-icons/md";
 import { ImHome } from "react-icons/im";
+import { HiSun } from "react-icons/hi";
+import { BsFillMoonFill } from "react-icons/bs";
+
 import "./UpperNav.css";
-import { useContext } from "react";
 import { AuhtContext } from "../Contexts/AuthContext";
 
 export default function UpperNav() {
   const navigate = useNavigate();
-  const { active_user, authState } = useContext(AuhtContext);
+  const { active_user } = useContext(AuhtContext);
+  const [theme, setTheme] = useState(false);
+  const [className, setClassname] = useState("light-theme");
+  const handleTheme = () => {
+    if (theme === false) {
+      setClassname("dark-theme");
+    } else {
+      setClassname("light-theme");
+    }
+  };
+  useEffect(() => {
+    document.body.className = className;
+  }, [className]);
   return (
     <div className="upper-nav-container">
       <MdOutlineWebhook className="brand-icon" />
@@ -27,13 +43,28 @@ export default function UpperNav() {
           }}
         >
           <img
-            src={authState.avatar}
+            src={active_user.avatar}
             alt=""
             height="40px"
             style={{ borderRadius: "50%" }}
           />
         </span>
-        <span style={{ display: "inline" }}> B/D mode</span>
+        <span>
+          <HiSun
+            style={{ display: theme ? "none" : "inline" }}
+            onClick={() => {
+              handleTheme();
+              setTheme(!theme);
+            }}
+          />
+          <BsFillMoonFill
+            onClick={() => {
+              handleTheme();
+              setTheme(!theme);
+            }}
+            style={{ display: theme ? "inline" : "none" }}
+          />
+        </span>
       </div>
     </div>
   );

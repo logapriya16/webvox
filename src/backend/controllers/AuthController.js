@@ -1,6 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
 import { formatDate } from "../utils/authUtils";
+//import defaultUser from "../../imgs/defaultUser.png"
 const sign = require("jwt-encode");
 
 /**
@@ -29,7 +30,7 @@ export const signupHandler = function (schema, request) {
       );
     }
     const _id = uuid();
-
+    //const avatar = defaultUser;
     const newUser = {
       _id,
       createdAt: formatDate(),
@@ -40,6 +41,7 @@ export const signupHandler = function (schema, request) {
       followers: [],
       following: [],
       bookmarks: [],
+      
     };
     const createdUser = schema.users.create(newUser);
     const encodedToken = sign(

@@ -62,7 +62,12 @@ export function makeServer({ environment = "development" } = {}) {
       this.get("/posts", getAllpostsHandler.bind(this));
       this.get("/posts/:postId", getPostHandler.bind(this));
       this.get("/posts/user/:username", getAllUserPostsHandler.bind(this));
-
+      this.passthrough(
+        "https://api.cloudinary.com/v1_1/dojmfadsd/image/upload"
+      );
+      this.passthrough(
+        "https://api.cloudinary.com/v1_1/dojmfadsd/video/upload"
+      );
       // post routes (private)
       this.post("/posts", createPostHandler.bind(this));
       this.delete("/posts/:postId", deletePostHandler.bind(this));

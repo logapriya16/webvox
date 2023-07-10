@@ -14,6 +14,7 @@
   height: fit-content;
   padding: 0.9rem;
   margin: 0.4rem;
+  cursor: pointer;
 }
 .otheruser-pills {
   text-align: left;

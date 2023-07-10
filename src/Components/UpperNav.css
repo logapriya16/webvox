@@ -1,11 +1,15 @@
-
+.upper-nav-container{
+    display: flex;
+    justify-content: space-evenly;
+}
 .brand-name{
     display: inline;
     color:var(--primary-color);
+    padding: 0.5rem;
 }
 .brand-icon{
     font-size: 2.5rem;
-    padding: 0.5rem;
+    padding: 1.2rem;
     display: inline;
     color: var(--primary-color);
 }
@@ -18,5 +22,7 @@
 }
 .nav-elements{
     display: inline;
+    padding: 1rem;
     color: var(--primary-color);
+    
 }

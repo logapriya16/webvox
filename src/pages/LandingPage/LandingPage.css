@@ -2,4 +2,13 @@
     display: flex;
     justify-content: space-between;
 }
+.new-post {
+    justify-content: space-around;
+    margin: 0.6rem;
+    padding: 1rem;
+  }
 
+.landing-profile{
+    text-align: left;
+    margin-left: 1.5rem;
+}

@@ -3,13 +3,13 @@ import "./PostDisplay.css";
 import { useContext } from "react";
 import { PostContext } from "../../Contexts/PostContext";
 import { BookmarkContext } from "../../Contexts/BookmarkContext";
-import {
-  BsFillPersonFill,
-  BsHeart,
-  BsBookmark,
-  BsBookmarksFill,
-} from "react-icons/bs";
+import { UserContext } from "../../Contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+
+import { BsHeart, BsBookmark, BsBookmarksFill } from "react-icons/bs";
+import { CiCircleRemove } from "react-icons/ci";
 import { PiHeartFill } from "react-icons/pi";
+import { BiSolidMessageEdit } from "react-icons/bi";
 import { AuhtContext } from "../../Contexts/AuthContext";
 import { Button, Dropdown } from "antd";
 import { toast } from "react-toastify";
@@ -27,9 +27,10 @@ export default function PostDisplay({ item }) {
 
   const { addToBookmark, bookmarkState, removeFromBookmark } =
     useContext(BookmarkContext);
-
+  const { users } = useContext(UserContext);
   const { active_user } = useContext(AuhtContext);
   const [displayedit, setDisplatedit] = useState(false);
+  const navigate = useNavigate();
   const items = [
     {
       key: "1",
@@ -48,7 +49,18 @@ export default function PostDisplay({ item }) {
             <li key={post._id} type="none" className="post-container">
               <div className="post-upper">
                 <div>
-                  <BsFillPersonFill className="avatar" />
+                  {users.map((person) =>
+                    person.username === post.username ? (
+                      <img
+                        src={person.avatar}
+                        alt=""
+                        height="50px"
+                        className="cursor"
+                        style={{ borderRadius: "50%", margin: "0.7rem" }}
+                        onClick={() => navigate(`/profile/${person._id}`)}
+                      />
+                    ) : null
+                  )}
                 </div>
                 <div>
                   <span style={{ padding: "0.4rem" }}>{post.username}</span>
@@ -60,7 +72,7 @@ export default function PostDisplay({ item }) {
                       post.username === active_user.username ? "block" : "none",
                   }}
                 >
-                  <Dropdown
+                  {/* <Dropdown
                     menu={{
                       items,
                     }}
@@ -68,17 +80,23 @@ export default function PostDisplay({ item }) {
                     arrow
                   >
                     <Button>..</Button>
-                  </Dropdown>
-                  <button
+                  </Dropdown> */}
+                  <span
                     onClick={() => {
                       postEdit(post._id);
                       setDisplatedit(!displayedit);
                       setEdittext(post.content);
                     }}
                   >
-                    Edit
-                  </button>
-                  <button onClick={() => postDelete(post._id)}>Delete</button>
+                    <BiSolidMessageEdit
+                      style={{ color: "#db2777", fontSize: "larger" }}
+                    />
+                  </span>
+                  <span onClick={() => postDelete(post._id)}>
+                    <CiCircleRemove
+                      style={{ color: "red", fontSize: "larger" }}
+                    />
+                  </span>
                 </div>
               </div>
               <div
@@ -99,10 +117,23 @@ export default function PostDisplay({ item }) {
                   rows="10"
                   value={edittext}
                 />
+                <span onClick={() => postEdit(post._id,"post_img","")}>
+                  <CiCircleRemove
+                    style={{
+                      color: "red",
+                      fontSize: "larger",
+                      display: "block",
+                    }}
+                  />
+                </span>
+
+                <img src={post.post_img} alt="" height="450px" width="450px" />
+
                 <button
+                  className="follow-btn"
                   onClick={() => {
                     setDisplatedit(!displayedit);
-                    postEdit(post._id, edittext);
+                    postEdit(post._id,"content", edittext);
                     toast.info("Post updated", {
                       position: "top-right",
                       autoClose: 5000,
@@ -122,7 +153,8 @@ export default function PostDisplay({ item }) {
                 className="post-middle"
                 style={{ display: displayedit ? "none" : "block" }}
               >
-                {post.content}
+                <img src={post.post_img} alt="" height="450px" width="450px" />
+                <p>{post.content}</p>
               </div>
               <hr />
               <div className="post-lower">

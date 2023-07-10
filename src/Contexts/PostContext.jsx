@@ -16,10 +16,11 @@ export default function Postprovider({ children }) {
     isPostLoading: false,
     allpost: [],
     curr_user_post: [],
-    curr_user_following_posts:[]
+    curr_user_following_posts: [],
   };
   const [displayedit, setDisplatedit] = useState(false);
   const [postText, setPostText] = useState("");
+  const [postmedia, setPostmedia] = useState("");
   const [edittext, setEdittext] = useState("");
   const [postState, postDispatch] = useReducer(postReducer, postInitial);
 
@@ -52,16 +53,27 @@ export default function Postprovider({ children }) {
     }
   };
 
-  //api call to get the posts of users followed by current users
-  
   //api call for creating the post
-  const createPost = async (posttext, e) => {
+  const createPost = async (e,posttext,reset) => {
+    e.preventDefault()
+    const postMessage = e.target.elements.post_text.value
+    const resetter = e.target.elements.reset
     postDispatch({ type: "loading_post", payload: true });
+    
     try {
+      
+      const media_info = await createMediaURL(postmedia);
+      console.log(media_info?.name, media_info?.type);
       const response = await fetch("/api/posts", {
         method: "POST",
         headers: { authorization: curr_token },
-        body: JSON.stringify({ postData: posttext }),
+        body: JSON.stringify({
+          postData: {
+            content: postMessage,
+            post_img: media_info.name,
+            media_type: media_info.type,
+          },
+        }),
       });
       //console.log( await response.json());
       const temp = await response.json();
@@ -69,6 +81,7 @@ export default function Postprovider({ children }) {
       if (response.status === 201) {
         postDispatch({ type: "loading_post", payload: false });
         postDispatch({ type: "set_post", payload: temp.posts });
+        resetter.click()
       }
       if (response.status === 500) {
         toast.error("Server Error try again", {
@@ -87,8 +100,7 @@ export default function Postprovider({ children }) {
       console.log("error in creating new post", error);
     }
   };
-  
-  
+
   //api call to like a post
   const LikePost = async (id) => {
     postDispatch({ type: "loading_post", payload: true });
@@ -108,8 +120,7 @@ export default function Postprovider({ children }) {
       console.log("error in liking a post", error);
     }
   };
-  
-  
+
   //api call to unlike a post
   const DislikePost = async (id) => {
     postDispatch({ type: "loading_post", payload: true });
@@ -127,7 +138,6 @@ export default function Postprovider({ children }) {
       console.log("error in disliking the post", error);
     }
   };
-
 
   //api call to delete a post
   const postDelete = async (id) => {
@@ -148,9 +158,9 @@ export default function Postprovider({ children }) {
     }
   };
 
-
   //api call to edit a post
-  const postEdit = async (id, content) => {
+  const postEdit = async (id, parameter,edited_data) => {
+    const temp_postData = parameter
     try {
       const response = await fetch(`/api/posts/edit/${id}`, {
         method: "POST",
@@ -158,7 +168,8 @@ export default function Postprovider({ children }) {
           authorization: curr_token,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ postData: { content } }),
+
+        body: JSON.stringify({ postData: { temp_postData:edited_data } }),
       });
       const data = await response.json();
       postDispatch({ type: "set_post", payload: data.posts });
@@ -167,7 +178,63 @@ export default function Postprovider({ children }) {
     }
   };
 
+  const ValidatePostMedia = (media) => {
+    const mediaType = media.type.split("/")[0];
+    const mediaSize = media.size;
+    if (!(mediaType === "video" || mediaType === "image")) {
+      return {
+        isValid: false,
+        message: "Only image or video files are allowed",
+      };
+    } else if (mediaType === "video" && mediaSize / 1024000 > 9.5) {
+      return {
+        isValid: false,
+        message: "Video size must be less than 10MB...",
+      };
+    } else if (mediaType === "image" && mediaSize / 1024000 > 4) {
+      return { isValid: false, message: "Image size must be less than 4MB..." };
+    } else {
+      return { isValid: true, message: "valid" };
+    }
+  };
 
+  const createMediaURL = async (media) => {
+    console.log(media, "media");
+    if (
+      media.name === undefined ||
+      media.name.length === 0 ||
+      media.type === undefined
+    ) {
+      return "";
+    }
+    const mediaType = media.type.split("/")[0];
+    const formData = new FormData();
+    formData.append("file", media);
+    formData.append("upload_preset", process.env.REACT_APP_CLOUDINARY_PRESET);
+    formData.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
+    console.log("before try");
+    try {
+      console.log("indise try");
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/${mediaType}/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const temp = await response.json();
+      console.log(temp);
+      console.log(mediaType);
+      const { secure_url } = temp;
+
+      const return_value = { name: secure_url, type: mediaType };
+      console.log(return_value);
+      return return_value;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //api call to sort  based on trending post
   const TrendingHandler = () => {
     const temp = postState.allpost.sort(
@@ -175,7 +242,6 @@ export default function Postprovider({ children }) {
     );
     return postDispatch({ type: "set_post", payload: temp });
   };
-
 
   //api call to sort based on latest upload
   const LatestHandler = () => {
@@ -204,9 +270,13 @@ export default function Postprovider({ children }) {
         LikePost,
         DislikePost,
         postEdit,
+        postmedia,
+        setPostmedia,
         getcurruserPost,
         edittext,
         setEdittext,
+        ValidatePostMedia,
+        createMediaURL,
       }}
     >
       {children}

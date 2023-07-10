@@ -1,13 +1,8 @@
 .post-lower {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
-.new-post {
-  border: 0;
-  padding: 1rem;
-  display: flex;
-  flex-direction: row;
-}
+
 
 .post-area {
   text-align: center;

@@ -1,19 +1,34 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./LandingPage.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import UpperNav from "../../Components/UpperNav";
-import { AuhtContext } from "../../Contexts/AuthContext";
 import UserList from "../../Components/UserList/UserList";
 import Newpost from "../../Components/NewPost/Newpost";
-import { UserContext } from "../../Contexts/UserContext";
 import PostDisplay from "../../Components/PostDisplay/PostDisplay";
+
+import { AuhtContext } from "../../Contexts/AuthContext";
 import { PostContext } from "../../Contexts/PostContext";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 export default function LandingPage() {
-  const { active_user,authState } = useContext(AuhtContext);
-  const { avatar } = useContext(UserContext);
+  const { active_user } = useContext(AuhtContext);
   const { postState } = useContext(PostContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [displayposts, setDisplayposts] = useState([]);
+  // const LandingPagePost = postState.allpost.filter(
+  //   (post) => post.username === active_user.username
+  // )
+  // setDisplayposts(LandingPagePost)
+
+  // const LandingPagePosts = active_user.following.map((user) => {
+  //   const isFollower = postState.allpost.find(
+  //     (post) => post.username === user.username
+  //   );
+  //   return isFollower ? setDisplayposts(isFollower) : null;
+  // });
+ //console.log(displayposts);
   return (
     <div>
       <UpperNav />
@@ -24,14 +39,16 @@ export default function LandingPage() {
           </div>
           <div className="post-area">
             <div className="new-post">
-              <div onClick={()=>navigate('/profile')}>
+              <div className="landing-profile">
                 <img
-                  src={authState.avatar}
+                  className="cursor"
+                  src={active_user.avatar}
                   alt=""
+                  onClick={() => navigate("/profile")}
                   height="40px"
                   style={{ borderRadius: "50%" }}
                 />
-                <p>{active_user.username}</p>
+                <p>{active_user?.username}</p>
               </div>
               <div>
                 <Newpost />
@@ -40,7 +57,8 @@ export default function LandingPage() {
             {postState.allpost.map((post) =>
               post.username === active_user.username ? (
                 <PostDisplay item={post} />
-              ) : null
+              ) :
+              null
             )}
             {active_user.following.map((user) => {
               const isFollower = postState.allpost.find(

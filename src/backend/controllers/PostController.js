@@ -78,9 +78,12 @@ export const createPostHandler = function (schema, request) {
       );
     }
     const { postData } = JSON.parse(request.requestBody);
+    const { content, post_img, media_type } = postData;
     const post = {
       _id: uuid(),
-      content:postData,
+      content:content,
+      post_img:post_img,
+      media_type:media_type,
       likes: {
         likeCount: 0,
         likedBy: [],
@@ -90,6 +93,8 @@ export const createPostHandler = function (schema, request) {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+    console.log(post)
+
     this.db.posts.insert(post);
     return new Response(201, {}, { posts: this.db.posts });
   } catch (error) {

@@ -7,6 +7,15 @@
 .App {
   text-align: center;
   font-family: 'Belanosima', sans-serif;
+  
+}
+.dark-theme{
+  background-color: rgba(20, 17, 17,0.9);
+  color: white;
+}
+.light-theme{
+  background-color: white;
+  color: black;
 }
 .home-nav-container{
   margin-left: 0;
@@ -22,4 +31,7 @@
   padding: 0.5rem;
   margin: 0.2rem;
   background-color: var(--third-color);
+}
+.cursor{
+  cursor: pointer;
 }

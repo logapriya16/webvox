@@ -1,15 +1,11 @@
-import React, {  useContext,  } from "react";
+import React from "react";
 import UpperNav from "../../Components/UpperNav";
 import Navbar from "../../Components/Navbar/Navbar";
 import UserList from "../../Components/UserList/UserList";
 import "./Profile.css";
 import ProfileComponent from "../../Components/UserprofileComponet/UserProfileComponent";
-import { PostContext } from "../../Contexts/PostContext";
 
 export default function Profile() {
-  const { postState } = useContext(PostContext);
-  
-
   return (
     <div>
       <UpperNav />
