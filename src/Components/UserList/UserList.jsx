@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function UserList() {
   const { TrendingHandler, LatestHandler } = useContext(PostContext);
-  const { users } = useContext(UserContext);
+  const { userstate } = useContext(UserContext);
   const { active_user, followUser, UnfollowUser } = useContext(AuhtContext);
   const navigate = useNavigate();
   const Isfollowing = (item) =>
@@ -30,8 +30,7 @@ export default function UserList() {
       </div>
       <ul>
         <h4 style={{ padding: "0.9rem" }}> people you might know</h4>
-        {users
-          .filter((person) => person.username !== active_user.username)
+        {userstate.users.filter((person) => person.username !== active_user.username)
           .map((item) => {
             return (
               <div>

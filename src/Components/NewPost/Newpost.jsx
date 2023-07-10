@@ -5,10 +5,9 @@ import { useRef } from "react";
 export default function Newpost() {
   const {
     createPost,
-    postText,
-    setPostText,
     ValidatePostMedia,
     setPostmedia,
+    postState
   } = useContext(PostContext);
   const MediaHandler = (e) => {
     const IsmediaValid = ValidatePostMedia(e.target.files[0]);
@@ -16,21 +15,15 @@ export default function Newpost() {
       setPostmedia(e.target.files[0]);
     }
   };
-  const reset = useRef(null)
-  
   return (
-    <form className="new-post-container" onSubmit={(e)=>createPost(e,postText,reset)} >
+    <form className="new-post-container" onSubmit={(e)=>createPost(e)} >
   
       <input
         className="new-post-text"
         name="new-post"
-        // onChange={(e) => {
-        //   setPostText(e.target.value);
-        // }}
         id="post_text"
         cols="30"
         rows="10"
-        // value={postText}
         placeholder="what's happening"
       />
       <div className="new-post-lower">
@@ -43,13 +36,13 @@ export default function Newpost() {
         <button
         type="submit"
           className="primary-btn"
-          
+          disabled={postState.isPostLoading}      
         >
           Post
         </button>
         
       </div>
-      <button id="reset" style={{display:"none"}} type="reset" ref={reset}></button>
+      <button id="reset" style={{display:"none"}} type="reset" ></button>
     </form>
   );
 }

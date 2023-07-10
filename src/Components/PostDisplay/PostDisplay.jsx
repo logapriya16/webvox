@@ -11,7 +11,6 @@ import { CiCircleRemove } from "react-icons/ci";
 import { PiHeartFill } from "react-icons/pi";
 import { BiSolidMessageEdit } from "react-icons/bi";
 import { AuhtContext } from "../../Contexts/AuthContext";
-import { Button, Dropdown } from "antd";
 import { toast } from "react-toastify";
 
 export default function PostDisplay({ item }) {
@@ -27,9 +26,10 @@ export default function PostDisplay({ item }) {
 
   const { addToBookmark, bookmarkState, removeFromBookmark } =
     useContext(BookmarkContext);
-  const { users } = useContext(UserContext);
+  const { userstate } = useContext(UserContext);
   const { active_user } = useContext(AuhtContext);
   const [displayedit, setDisplatedit] = useState(false);
+  const [postimg, setPostimg] = useState(true);
   const navigate = useNavigate();
   const items = [
     {
@@ -49,17 +49,28 @@ export default function PostDisplay({ item }) {
             <li key={post._id} type="none" className="post-container">
               <div className="post-upper">
                 <div>
-                  {users.map((person) =>
-                    person.username === post.username ? (
-                      <img
-                        src={person.avatar}
-                        alt=""
-                        height="50px"
-                        className="cursor"
-                        style={{ borderRadius: "50%", margin: "0.7rem" }}
-                        onClick={() => navigate(`/profile/${person._id}`)}
-                      />
-                    ) : null
+                  {post.username === active_user.username ? (
+                    <img
+                      src={active_user.avatar}
+                      alt=""
+                      height="50px"
+                      className="cursor"
+                      style={{ borderRadius: "50%", margin: "0.7rem" }}
+                      onClick={() => navigate(`/profile`)}
+                    />
+                  ) : (
+                    userstate.users.map((person) =>
+                      person.username === post.username ? (
+                        <img
+                          src={person.avatar}
+                          alt=""
+                          height="50px"
+                          className="cursor"
+                          style={{ borderRadius: "50%", margin: "0.7rem" }}
+                          onClick={() => navigate(`/profile/${person._id}`)}
+                        />
+                      ) : null
+                    )
                   )}
                 </div>
                 <div>
@@ -72,20 +83,9 @@ export default function PostDisplay({ item }) {
                       post.username === active_user.username ? "block" : "none",
                   }}
                 >
-                  {/* <Dropdown
-                    menu={{
-                      items,
-                    }}
-                    placement="bottomLeft"
-                    arrow
-                  >
-                    <Button>..</Button>
-                  </Dropdown> */}
                   <span
                     onClick={() => {
-                      postEdit(post._id);
                       setDisplatedit(!displayedit);
-                      setEdittext(post.content);
                     }}
                   >
                     <BiSolidMessageEdit
@@ -99,8 +99,9 @@ export default function PostDisplay({ item }) {
                   </span>
                 </div>
               </div>
-              <div
-                className="post-edit"
+              <form
+                className="post_edit"
+                onSubmit={(e) => postEdit(post._id, e, postimg)}
                 style={{
                   display:
                     post.username === active_user.username && displayedit
@@ -110,15 +111,14 @@ export default function PostDisplay({ item }) {
               >
                 <textarea
                   name="edit-post"
-                  onChange={(e) => {
-                    setEdittext(e.target.value);
-                  }}
                   cols="30"
                   rows="10"
-                  value={edittext}
+                  id="post_edit"
+                  defaultValue={post.content}
                 />
-                <span onClick={() => postEdit(post._id,"post_img","")}>
+                <span>
                   <CiCircleRemove
+                    onClick={() => setPostimg(false)}
                     style={{
                       color: "red",
                       fontSize: "larger",
@@ -126,14 +126,18 @@ export default function PostDisplay({ item }) {
                     }}
                   />
                 </span>
-
-                <img src={post.post_img} alt="" height="450px" width="450px" />
-
+                <img
+                  src={post.post_img}
+                  id="post_img"
+                  alt=""
+                  height="450px"
+                  width="450px"
+                />
                 <button
                   className="follow-btn"
-                  onClick={() => {
+                  type="submit"
+                  onClick={(e) => {
                     setDisplatedit(!displayedit);
-                    postEdit(post._id,"content", edittext);
                     toast.info("Post updated", {
                       position: "top-right",
                       autoClose: 5000,
@@ -148,12 +152,25 @@ export default function PostDisplay({ item }) {
                 >
                   Update
                 </button>
-              </div>
+
+                <button
+                  id="reset"
+                  style={{ display: "none" }}
+                  type="reset"
+                ></button>
+              </form>
               <div
                 className="post-middle"
                 style={{ display: displayedit ? "none" : "block" }}
               >
-                <img src={post.post_img} alt="" height="450px" width="450px" />
+                {post.post_img ? (
+                  <img
+                    src={post.post_img}
+                    alt=""
+                    height="450px"
+                    width="450px"
+                  />
+                ) : null}
                 <p>{post.content}</p>
               </div>
               <hr />

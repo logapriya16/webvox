@@ -16,10 +16,9 @@ export default function Postprovider({ children }) {
     isPostLoading: false,
     allpost: [],
     curr_user_post: [],
-    curr_user_following_posts: [],
+    
   };
   const [displayedit, setDisplatedit] = useState(false);
-  const [postText, setPostText] = useState("");
   const [postmedia, setPostmedia] = useState("");
   const [edittext, setEdittext] = useState("");
   const [postState, postDispatch] = useReducer(postReducer, postInitial);
@@ -54,14 +53,13 @@ export default function Postprovider({ children }) {
   };
 
   //api call for creating the post
-  const createPost = async (e,posttext,reset) => {
-    e.preventDefault()
-    const postMessage = e.target.elements.post_text.value
-    const resetter = e.target.elements.reset
+  const createPost = async (e, posttext, reset) => {
+    e.preventDefault();
+    const postMessage = e.target.elements.post_text.value;
+    const resetter = e.target.elements.reset;
     postDispatch({ type: "loading_post", payload: true });
-    
+
     try {
-      
       const media_info = await createMediaURL(postmedia);
       console.log(media_info?.name, media_info?.type);
       const response = await fetch("/api/posts", {
@@ -81,7 +79,7 @@ export default function Postprovider({ children }) {
       if (response.status === 201) {
         postDispatch({ type: "loading_post", payload: false });
         postDispatch({ type: "set_post", payload: temp.posts });
-        resetter.click()
+        resetter.click();
       }
       if (response.status === 500) {
         toast.error("Server Error try again", {
@@ -95,7 +93,6 @@ export default function Postprovider({ children }) {
           theme: "colored",
         });
       }
-      setPostText("");
     } catch (error) {
       console.log("error in creating new post", error);
     }
@@ -159,8 +156,11 @@ export default function Postprovider({ children }) {
   };
 
   //api call to edit a post
-  const postEdit = async (id, parameter,edited_data) => {
-    const temp_postData = parameter
+  const postEdit = async (id, e, isImg) => {
+    e.preventDefault();
+    const resetter = e.target.elements.reset;
+    const temp_postImg = isImg ? e.target.elements?.post_img.value : null;
+    const temp_postText = e.target.elements?.post_edit.value;
     try {
       const response = await fetch(`/api/posts/edit/${id}`, {
         method: "POST",
@@ -169,10 +169,13 @@ export default function Postprovider({ children }) {
           "Content-Type": "application/json",
         },
 
-        body: JSON.stringify({ postData: { temp_postData:edited_data } }),
+        body: JSON.stringify({
+          postData: { content: temp_postText, post_img: temp_postImg },
+        }),
       });
       const data = await response.json();
       postDispatch({ type: "set_post", payload: data.posts });
+      resetter.click();
     } catch (error) {
       console.log(error);
     }
@@ -265,8 +268,6 @@ export default function Postprovider({ children }) {
         postDelete,
         displayedit,
         setDisplatedit,
-        postText,
-        setPostText,
         LikePost,
         DislikePost,
         postEdit,

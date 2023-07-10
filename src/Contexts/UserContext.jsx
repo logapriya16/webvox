@@ -1,41 +1,59 @@
 import axios from "axios";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 
 import { AuhtContext } from "./AuthContext";
 import { ReactToastify } from "../Utils/ReactToastify";
+import { useReducer } from "react";
+import { userReducer } from "../reducers/userReducer";
 
 export const UserContext = createContext();
 export default function UserProvider({ children }) {
   const { curr_token, active_user } = useContext(AuhtContext);
-  const [users, setUsers] = useState([]);
-  const [userbio, Setuserbio] = useState({
-    profile: active_user ? active_user.profile : "",
-    bio: active_user ? active_user.bio : "",
-    avatar: active_user ? active_user.avatar : "",
-  });
 
+  const userInitial = {
+    user_loading: false,
+    users: [],
+    userbio: "",
+    userProtfolio: "",
+    userAvatar: "",
+  };
+  const [userstate, userDispatch] = useReducer(userReducer, userInitial);
   const getallusers = async () => {
     try {
       const response = await axios.get("/api/users", {});
       //console.log(response)
+      userDispatch({ type: "user_loading", payload: true });
       if (response.status === 200) {
-        setUsers(response.data.users);
+        userDispatch({ type: "set_users", payload: response.data.users });
+        userDispatch({ type: "user_loading", payload: false });
       }
     } catch (error) {
-      console.log("eror while fetching users from BD", error);
+      console.log("error while fetching users from BD", error);
     }
   };
-  const EditUser = async () => {
+  const EditUser = async (e) => {
+    e.preventDefault();
+    const profile = e.target.elements?.user_portfolio.value;
+    const bio = e.target.elements?.user_bio.value;
+    const avatar = e.target.src;
+    console.log("inside context",avatar)
     try {
-      console.log(userbio,"context file ");
+      userDispatch({ type: "user_loading", payload: true });
+      
       const response = await fetch("/api/users/edit", {
         method: "POST",
         headers: { authorization: curr_token },
-        body: JSON.stringify({ userData: userbio }),
+        body: JSON.stringify({ userData: { bio, profile, avatar } }),
       });
 
       const temp = await response.json();
+      
       if (response.status === 201) {
+        userDispatch({type:"set_bio",payload:temp.user.bio})
+        userDispatch({type:"set_portfolio",payload:temp.user.profile})
+        userDispatch({type:"set_avatar",payload:temp.user.avatar})
+        userDispatch({ type: "user_loading", payload: false });
+        
         localStorage.setItem("curr_user", JSON.stringify(temp.user));
         ReactToastify("Profile updated", "success");
       }
@@ -44,18 +62,13 @@ export default function UserProvider({ children }) {
       console.log(error);
     }
   };
-//console.log(active_user?.avatar)
+  //console.log(active_user?.avatar)
   useEffect(() => {
     getallusers();
   }, []);
-  useEffect(() => {
-    getallusers();
-  }, [active_user?.avatar]);
-  
+
   return (
-    <UserContext.Provider
-      value={{ users, userbio, Setuserbio, EditUser }}
-    >
+    <UserContext.Provider value={{ userstate, EditUser }}>
       {children}
     </UserContext.Provider>
   );

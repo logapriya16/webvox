@@ -11,7 +11,7 @@ import PostDisplay from "../../Components/PostDisplay/PostDisplay";
 import { PostContext } from "../../Contexts/PostContext";
 
 export default function OthersProfile() {
-  const { users } = useContext(UserContext);
+  const { userstate } = useContext(UserContext);
   const { postState } = useContext(PostContext);
   const { profileID } = useParams();
 
@@ -25,12 +25,12 @@ export default function OthersProfile() {
         <div>
           <ul>
             {" "}
-            {users
+            {userstate.users
               .filter((item) => item._id === profileID)
               .map((user) => (
                 <li type="none">
                   <h1 style={{ textAlign: "left" }}>{user.username}</h1>
-      
+
                   <div className="profile-upper">
                     <div className="profile-avatar">
                       <Avatar
@@ -50,7 +50,7 @@ export default function OthersProfile() {
                         Following <br />
                         {user.following.length}
                       </span>
-                      </div>
+                    </div>
                   </div>
                   <div className="profile-middle">
                     <div>
