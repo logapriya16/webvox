@@ -15,7 +15,7 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 12px;
-  background-color:var(---post-bg);
+  background-color:rgba(236, 72, 153, 0.06);
 
  
 }
