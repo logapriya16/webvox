@@ -25,7 +25,7 @@ function AuthProvider({ children }) {
     isAuthLoading: false,
     user: active_user ? active_user : {},
     E_token: curr_token ? curr_token : "",
-   };
+  };
 
   const [authState, authDispatch] = useReducer(authReducer, authInitial);
 
@@ -68,6 +68,7 @@ function AuthProvider({ children }) {
         );
 
         authDispatch({ type: "set_user", payload: response.data?.createdUser });
+        navigate(location?.state?.from?.pathname || "/");
         ReactToastify(
           `welcome ${response.data?.createdUser.username}`,
           "success"
@@ -173,7 +174,6 @@ function AuthProvider({ children }) {
     }
   };
 
-  
   return (
     <AuhtContext.Provider
       value={{

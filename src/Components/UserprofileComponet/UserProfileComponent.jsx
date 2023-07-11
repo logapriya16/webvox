@@ -128,15 +128,15 @@ export default function ProfileComponent() {
           </form>
 
           <div>
-            <p>{active_user.username}</p>
+            <p>{active_user?.username}</p>
             <p>
-              {active_user.profile.length > 0 ? (
+              {active_user?.profile.length > 0 ? (
                 <a href={active_user.profile}>{active_user.profile}</a>
               ) : (
                 "My Portfolio"
               )}
             </p>
-            <p>{active_user.bio.length > 0 ? active_user.bio : "My Bio"}</p>
+            <p>{active_user?.bio.length > 0 ? active_user.bio : "My Bio"}</p>
           </div>
         </div>
         <div className="profile-lower">
