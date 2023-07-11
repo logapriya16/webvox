@@ -29,7 +29,7 @@ export default function Newpost() {
       <div className="new-post-lower">
         <input
           type="file"
-          className="tweetform-fileInput"
+          className="post-fileInput"
           onChange={(e)=>MediaHandler(e)}
           multiple
         />

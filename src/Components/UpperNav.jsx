@@ -9,19 +9,12 @@ import { BsFillMoonFill } from "react-icons/bs";
 
 import "./UpperNav.css";
 import { AuhtContext } from "../Contexts/AuthContext";
+import { UserContext } from "../Contexts/UserContext";
 
 export default function UpperNav() {
   const navigate = useNavigate();
   const { active_user } = useContext(AuhtContext);
-  const [theme, setTheme] = useState(false);
-  const [className, setClassname] = useState("light-theme");
-  const handleTheme = () => {
-    if (theme === false) {
-      setClassname("dark-theme");
-    } else {
-      setClassname("light-theme");
-    }
-  };
+  const { handleTheme, className, theme, setTheme } = useContext(UserContext);
   useEffect(() => {
     document.body.className = className;
   }, [className]);

@@ -5,10 +5,14 @@ import { AuhtContext } from "./AuthContext";
 import { ReactToastify } from "../Utils/ReactToastify";
 import { useReducer } from "react";
 import { userReducer } from "../reducers/userReducer";
+import { useState } from "react";
 
 export const UserContext = createContext();
 export default function UserProvider({ children }) {
   const { curr_token, active_user } = useContext(AuhtContext);
+  
+  const [className, setClassname] = useState("light-theme");
+  const [theme, setTheme] = useState(false);
 
   const userInitial = {
     user_loading: false,
@@ -62,13 +66,21 @@ export default function UserProvider({ children }) {
       console.log(error);
     }
   };
+  const handleTheme = () => {
+    if (theme === false) {
+      setClassname("dark-theme");
+    } else {
+      setClassname("light-theme");
+    }
+  };
+ 
   //console.log(active_user?.avatar)
   useEffect(() => {
     getallusers();
   }, []);
 
   return (
-    <UserContext.Provider value={{ userstate, EditUser }}>
+    <UserContext.Provider value={{ userstate, EditUser,handleTheme ,className,theme,setTheme}}>
       {children}
     </UserContext.Provider>
   );
