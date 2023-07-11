@@ -44,7 +44,7 @@ function Login() {
       </div>
       <div className="login-card">
         <div className="auth-element">
-          <label htmlFor="username" className="auth-lable">Username</label>
+        <span className="auth-lable">Username</span>
           <div style={{ display: "flex" }}>
             <input
               className="auth-input"
@@ -58,9 +58,11 @@ function Login() {
             />
             <AiOutlineUser />
           </div>
+
         </div>
         <div className="auth-element">
-          <label htmlFor="password" className="auth-lable">Password</label>
+        <span className="auth-lable">Password</span>
+
           <div style={{ display: "flex" }}>
             <input
               className="auth-input"
@@ -83,6 +85,7 @@ function Login() {
             Login As test User
           </button>
         </div>
+
         <p>
           <Link to="/signup">Create New Account</Link>
         </p>

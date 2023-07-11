@@ -16,13 +16,12 @@ import { BsPencilSquare } from "react-icons/bs";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import { useEffect } from "react";
 import PostDisplay from "../PostDisplay/PostDisplay";
 
 export default function ProfileComponent() {
   const { active_user } = useContext(AuhtContext);
   const { postState } = useContext(PostContext);
-  const { userstate, EditUser } = useContext(UserContext);
+  const { EditUser } = useContext(UserContext);
   const [editbio, setEditbio] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const imagesarray = [pic2, pic3, pic4, pic5, pic6];
@@ -34,10 +33,6 @@ export default function ProfileComponent() {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-  };
-  const handleAvatarchange = (e, img) => {
-    console.log("inside component", img);
-    EditUser(e);
   };
   return (
     <div className="curr-us-pro">
@@ -66,7 +61,7 @@ export default function ProfileComponent() {
                     onClick={(e) => {
                       handleOk();
                       EditUser(e);
-                      console.log(e.target.src)
+                      console.log(e.target.src);
                       //handleAvatarchange(e,image);
                     }}
                     height="100px"
@@ -130,13 +125,17 @@ export default function ProfileComponent() {
           <div>
             <p>{active_user?.username}</p>
             <p>
-              {active_user?.profile.length > 0 ? (
+              {active_user.profile && active_user?.profile.length > 0 ? (
                 <a href={active_user.profile}>{active_user.profile}</a>
               ) : (
                 "My Portfolio"
               )}
             </p>
-            <p>{active_user?.bio.length > 0 ? active_user.bio : "My Bio"}</p>
+            <p>
+              {active_user.bio && active_user?.bio.length > 0
+                ? active_user.bio
+                : "My Bio"}
+            </p>
           </div>
         </div>
         <div className="profile-lower">

@@ -56,13 +56,15 @@ export default function OthersProfile() {
                     <div>
                       <p>{user.username}</p>
                       <p>
-                        {user.profile.length > 0 ? (
+                        {user.profile && user.profile.length > 0 ? (
                           <a href={user.profile}>{user.profile}</a>
                         ) : (
                           "My Portfolio"
                         )}
                       </p>
-                      <p>{user.bio.length > 0 ? user.bio : "My Bio"}</p>
+                      <p>
+                        {user.bio && user.bio.length > 0 ? user.bio : "My Bio"}
+                      </p>
                     </div>
                   </div>
                   <div className="profile-lower">

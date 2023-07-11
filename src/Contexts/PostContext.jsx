@@ -257,7 +257,7 @@ export default function Postprovider({ children }) {
   useEffect(() => {
     getAllPosts();
     getcurruserPost(active_user?.username);
-  }, []);
+  }, [active_user]);
   return (
     <PostContext.Provider
       value={{

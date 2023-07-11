@@ -1,19 +1,27 @@
-.signup-card {
-  background: var(--third-color);
-  margin: 12rem;
-  border: 1px solid var(--primary-color);
-  margin-top: 3rem;
-  overflow: hidden;
-}
 .signup-container {
   display: flex;
-  flex-direction: column;
+  align-items:center;
+  margin: 2rem;
+  gap:4rem;
+justify-content: center;
 }
+.signup-card {
+  background: var(--third-color);
+  inset: 4px;
+  padding: 50px 40px;
+  border-radius: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width:fit-content;
+  border: 1px solid var(--primary-color);
+}
+
 .content-signup h2 {
   font-size: 6rem;
   margin: 0;
 }
-.content-signup h2:nth-child(1) {
+ .content-signup h2:nth-child(1) {
   color: transparent;
   -webkit-text-stroke: 2px var(--secondary-color);
 }
@@ -50,4 +58,4 @@
       0% 100%
     );
   }
-}
+} 
