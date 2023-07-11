@@ -159,7 +159,7 @@ export default function Postprovider({ children }) {
   const postEdit = async (id, e, isImg) => {
     e.preventDefault();
     const resetter = e.target.elements.reset;
-    const temp_postImg = isImg ? e.target.elements?.post_img.value : null;
+    const temp_postImg = isImg ? e.target.elements?.post_img : null;
     const temp_postText = e.target.elements?.post_edit.value;
     try {
       const response = await fetch(`/api/posts/edit/${id}`, {
