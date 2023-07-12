@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { BsHeart, BsBookmark, BsBookmarksFill } from "react-icons/bs";
 import { CiCircleRemove } from "react-icons/ci";
 import { PiHeartFill } from "react-icons/pi";
-import {GrShareOption} from "react-icons/gr"
-import {AiOutlineComment} from "react-icons/ai"
+import { GrShareOption } from "react-icons/gr";
+import { AiOutlineComment } from "react-icons/ai";
 import { BiSolidMessageEdit } from "react-icons/bi";
 import { AuhtContext } from "../../Contexts/AuthContext";
 import { toast } from "react-toastify";
@@ -166,12 +166,21 @@ export default function PostDisplay({ item }) {
                 style={{ display: displayedit ? "none" : "block" }}
               >
                 {post.post_img ? (
-                  <img
-                    src={post.post_img}
-                    alt=""
-                    height="450px"
-                    width="450px"
-                  />
+                  post.media_type === "video" ? (
+                    <video
+                      src={post.post_img}
+                      width="450"
+                      height="450"
+                      controls
+                    />
+                  ) : (
+                    <img
+                      src={post.post_img}
+                      alt=""
+                      height="450px"
+                      width="450px"
+                    />
+                  )
                 ) : null}
               </div>
               <hr />
@@ -214,10 +223,10 @@ export default function PostDisplay({ item }) {
                     </span>
                   )}
                   <span>
-                    <GrShareOption/>
+                    <GrShareOption />
                   </span>
                   <span>
-                    <AiOutlineComment/>
+                    <AiOutlineComment />
                   </span>
                 </div>
                 <p className="post-content">{post.content}</p>

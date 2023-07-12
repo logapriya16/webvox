@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { AuhtContext } from "../../Contexts/AuthContext";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLockPasswordFill } from "react-icons/ri";
+import {FaUserPlus} from "react-icons/fa"
 import "./login.css";
 function Login() {
   const testUserData = {
@@ -39,13 +40,28 @@ function Login() {
 
   return (
     <div className="login-container">
-      <div className="content">
-        <h2>Webvox</h2>
+      <div className="main">
+        <h2>
+          <span className="brand">Webvox</span>
+          
+          <div className="roller">
+            <span id="rolltext">
+              SHARE
+              <br />
+              EXPLORE
+              <br /> HAVE FUN
+              <br />
+              MAKE MEMORIES
+            </span>
+          </div>
+          <span id="spare-time">Join Webvox Community</span>
+          <br />
+        </h2>
       </div>
       <div className="login-card">
         <div className="auth-element">
-        <span className="auth-lable">Username</span>
-          <div style={{ display: "flex" }}>
+          <span className="auth-lable">Username</span>
+          <div className="flex">
             <input
               className="auth-input"
               type="login"
@@ -56,14 +72,13 @@ function Login() {
                 setUserData((prevs) => ({ ...prevs, username: e.target.value }))
               }
             />
-            <AiOutlineUser />
+            <AiOutlineUser  className="auth-icons"/>
           </div>
-
         </div>
         <div className="auth-element">
-        <span className="auth-lable">Password</span>
+          <span className="auth-lable">Password</span>
 
-          <div style={{ display: "flex" }}>
+          <div className="flex">
             <input
               className="auth-input"
               type="password"
@@ -74,7 +89,7 @@ function Login() {
                 setUserData((prevs) => ({ ...prevs, password: e.target.value }))
               }
             />
-            <RiLockPasswordFill />
+            <RiLockPasswordFill className="auth-icons" />
           </div>
         </div>
         <div className="auth-buttons">
@@ -86,8 +101,8 @@ function Login() {
           </button>
         </div>
 
-        <p>
-          <Link to="/signup">Create New Account</Link>
+        <p className="flex" style={{alignItems:"center",gap:"0.5rem"}}>
+          <Link to="/signup">Create New Account</Link><FaUserPlus style={{margin:"0.2rem"}} className="auth-icons" />
         </p>
       </div>
     </div>

@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { AuhtContext } from "../../Contexts/AuthContext";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { BiLogoGmail } from "react-icons/bi";
+import { FaUserLock } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import "./signup.css";
@@ -33,15 +35,30 @@ function SignUp() {
 
   return (
     <div className="signup-container">
-      <div className="content-signup">
-        <h2>Webvox</h2>
+      <div className="main">
+        <h2>
+          <span className="brand">Webvox</span>
+
+          <div className="roller">
+            <span id="rolltext">
+              SHARE
+              <br />
+              EXPLORE
+              <br /> HAVE FUN
+              <br />
+              MAKE MEMORIES
+            </span>
+          </div>
+          <span id="spare-time">Join Webvox Community</span>
+          <br />
+        </h2>
       </div>
       <div className="signup-card">
         <div className="auth-element">
           <label className="auth-lable" htmlFor="first-name">
-            Firstname :{" "}
+            Firstname :
           </label>
-          <div>
+          <div className="flex">
             <input
               className="auth-input "
               id="first-name"
@@ -55,66 +72,77 @@ function SignUp() {
                 }))
               }
             />
-            <AiOutlineUser />
+            <AiOutlineUser  className="auth-icons"/>
           </div>
         </div>
         <div className="auth-element">
           <label htmlFor="last-name" className="auth-lable">
             Lastname :{" "}
           </label>
-          <input
-            className="auth-input "
-            id="last-name"
-            type="text"
-            placeholder="Enter lastname"
-            value={userCredentials.lastname}
-            onChange={(e) =>
-              setUserCredentials((prev) => ({
-                ...prev,
-                lastname: e.target.value,
-              }))
-            }
-          />
+          <div className="flex">
+            <input
+              className="auth-input "
+              id="last-name"
+              type="text"
+              placeholder="Enter lastname"
+              value={userCredentials.lastname}
+              onChange={(e) =>
+                setUserCredentials((prev) => ({
+                  ...prev,
+                  lastname: e.target.value,
+                }))
+              }
+            />
+            <AiOutlineUser className="auth-icons" />
+          </div>
         </div>
         <div className="auth-element">
           <label htmlFor="e-mail" className="auth-lable">
             Email :{" "}
           </label>
-          <input
-            className="auth-input "
-            id="e-mail"
-            type="email"
-            placeholder="Enter Email"
-            value={userCredentials.email}
-            onChange={(e) =>
-              setUserCredentials((prev) => ({ ...prev, email: e.target.value }))
-            }
-          />
+          <div className="flex">
+            <input
+              className="auth-input "
+              id="e-mail"
+              type="email"
+              placeholder="Enter Email"
+              value={userCredentials.email}
+              onChange={(e) =>
+                setUserCredentials((prev) => ({
+                  ...prev,
+                  email: e.target.value,
+                }))
+              }
+            />
+            <BiLogoGmail className="auth-icons" />
+          </div>
         </div>
         <div className="auth-element">
           <label htmlFor="username" className="auth-lable">
-            Username :{" "}
+            Username :
           </label>
-          <input
-            className="auth-input "
-            id="username"
-            type="text"
-            placeholder="Enter Username"
-            value={userCredentials.username}
-            onChange={(e) =>
-              setUserCredentials((prev) => ({
-                ...prev,
-                username: e.target.value,
-              }))
-            }
-          />
+          <div className="flex">
+            <input
+              className="auth-input "
+              id="username"
+              type="text"
+              placeholder="Enter Username"
+              value={userCredentials.username}
+              onChange={(e) =>
+                setUserCredentials((prev) => ({
+                  ...prev,
+                  username: e.target.value,
+                }))
+              }
+            />
+            <FaUserLock className="auth-icons" />
+          </div>
         </div>
         <div className="auth-element">
           <label htmlFor="password" className="auth-lable">
-            
             Password :
           </label>
-          <div>
+          <div className="flex">
             <input
               className="auth-input "
               id="password"
@@ -128,7 +156,7 @@ function SignUp() {
                 }))
               }
             />
-            <RiLockPasswordFill />
+            <RiLockPasswordFill className="auth-icons" />
           </div>
         </div>
         <div className="auth-buttons">
