@@ -59,9 +59,8 @@ export default function ProfileComponent() {
                     alt=""
                     id="avatar"
                     onClick={(e) => {
-                      handleOk();
                       EditUser(e);
-                      console.log(e.target.src);
+                      //console.log(e.target.src);
                       //handleAvatarchange(e,image);
                     }}
                     height="100px"

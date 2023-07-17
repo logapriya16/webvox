@@ -48,7 +48,7 @@ export default function PostDisplay({ item }) {
       <ul className="post-area">
         {postState.allpost.map((post) =>
           post._id === item._id ? (
-            <li key={post._id} type="none" className="post-container">
+            <li key={post.username} type="none" className="post-container">
               <div className="post-upper">
                 <div>
                   {post.username === active_user.username ? (

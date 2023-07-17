@@ -10,16 +10,15 @@ import { useState } from "react";
 export const UserContext = createContext();
 export default function UserProvider({ children }) {
   const { curr_token, active_user } = useContext(AuhtContext);
-  
   const [className, setClassname] = useState("light-theme");
   const [theme, setTheme] = useState(false);
 
   const userInitial = {
     user_loading: false,
     users: [],
-    userbio: "",
-    userProtfolio: "",
-    userAvatar: "",
+    userbio: active_user ? active_user.bio : "",
+    userProtfolio: active_user ? active_user.profile : "",
+    userAvatar: active_user ? active_user.avatar : "",
   };
   const [userstate, userDispatch] = useReducer(userReducer, userInitial);
   const getallusers = async () => {
@@ -35,29 +34,37 @@ export default function UserProvider({ children }) {
       console.log("error while fetching users from BD", error);
     }
   };
+  useEffect(() => {
+    userDispatch({ type: "set_bio", payload: active_user ? active_user.bio : "" });
+    userDispatch({ type: "set_portfolio", payload: active_user ? active_user.profile : "" });
+    userDispatch({ type: "set_avatar", payload: active_user ? active_user.avatar : "" });
+
+    getallusers();
+  }, []);
+
   const EditUser = async (e) => {
     e.preventDefault();
     const profile = e.target.elements?.user_portfolio.value;
     const bio = e.target.elements?.user_bio.value;
     const avatar = e.target.src;
-    console.log("inside context",avatar)
+    //console.log("inside context", avatar);
     try {
       userDispatch({ type: "user_loading", payload: true });
-      
+
       const response = await fetch("/api/users/edit", {
         method: "POST",
         headers: { authorization: curr_token },
         body: JSON.stringify({ userData: { bio, profile, avatar } }),
       });
-
+      //console.log(userstate);
       const temp = await response.json();
-      
+      //console.log(temp);
       if (response.status === 201) {
-        userDispatch({type:"set_bio",payload:temp.user.bio})
-        userDispatch({type:"set_portfolio",payload:temp.user.profile})
-        userDispatch({type:"set_avatar",payload:temp.user.avatar})
+        userDispatch({ type: "set_bio", payload: temp.user.bio });
+        userDispatch({ type: "set_portfolio", payload: temp.user.profile });
+        userDispatch({ type: "set_avatar", payload: temp.user.avatar });
         userDispatch({ type: "user_loading", payload: false });
-        
+
         localStorage.setItem("curr_user", JSON.stringify(temp.user));
         ReactToastify("Profile updated", "success");
       }
@@ -66,6 +73,10 @@ export default function UserProvider({ children }) {
       console.log(error);
     }
   };
+  console.log(userstate);
+  useEffect(() => {
+    console.log(userstate);
+  }, [userstate]);
   const handleTheme = () => {
     if (theme === false) {
       setClassname("dark-theme");
@@ -73,14 +84,13 @@ export default function UserProvider({ children }) {
       setClassname("light-theme");
     }
   };
- 
+
   //console.log(active_user?.avatar)
-  useEffect(() => {
-    getallusers();
-  }, []);
 
   return (
-    <UserContext.Provider value={{ userstate, EditUser,handleTheme ,className,theme,setTheme}}>
+    <UserContext.Provider
+      value={{ userstate, EditUser, handleTheme, className, theme, setTheme }}
+    >
       {children}
     </UserContext.Provider>
   );

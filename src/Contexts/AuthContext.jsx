@@ -1,9 +1,8 @@
-import React, { createContext, useReducer, useState } from "react";
+import React, { createContext, useEffect, useReducer, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { authReducer } from "../reducers/authReducer";
 import axios from "axios";
 
-import defaultUser from "../imgs/defaultUser.png";
 import { ReactToastify } from "../Utils/ReactToastify";
 export const AuhtContext = createContext();
 
@@ -32,13 +31,16 @@ function AuthProvider({ children }) {
   //logout function
   const Logout = () => {
     //navigate("/login");
-    authDispatch({ type: "E_token", payload: "" });
+    authDispatch({ type: "set_token", payload: "" });
+    authDispatch({type:"set_user" ,payload:{}})
     localStorage.removeItem("data");
     localStorage.removeItem("curr_user");
     // authDispatch({ type: "set_avatar", payload: "" });
     ReactToastify("Logged out", "error");
   };
+useEffect(()=>{},[authState])
 
+//checks if user is Logged out 
   const CheckLogin = () => {
     //console.log("inside check login")
     return localStorage.getItem("data") ? true : false;

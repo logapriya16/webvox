@@ -9,11 +9,17 @@ import { UserOutlined } from "@ant-design/icons";
 import { UserContext } from "../../Contexts/UserContext";
 import PostDisplay from "../../Components/PostDisplay/PostDisplay";
 import { PostContext } from "../../Contexts/PostContext";
+import { AuhtContext } from "../../Contexts/AuthContext";
 
 export default function OthersProfile() {
   const { userstate } = useContext(UserContext);
   const { postState } = useContext(PostContext);
   const { profileID } = useParams();
+  const { active_user, followUser, UnfollowUser } = useContext(AuhtContext);
+  const Isfollowing = (item) =>
+    active_user?.following.find((person) => person.username === item)
+      ? true
+      : false;
 
   return (
     <div>
@@ -54,7 +60,49 @@ export default function OthersProfile() {
                   </div>
                   <div className="profile-middle">
                     <div>
-                      <p>{user.username}</p>
+                      <div className="flex" style={{alignItems:'center'}}>
+                        <p>{user.username}</p>
+                        <p>
+                          {userstate.users
+                            .filter(
+                              (person) =>
+                                person.username !== active_user.username && person.username === user.username
+                            )
+                            .map((item) => {
+                              return (
+                                <div>
+                                  <li
+                                    type="none"
+                                    key={item._id}
+                                    className="each-user"
+                                  >
+                                    <div>
+                                      {Isfollowing(item.username) ? (
+                                        <button
+                                          className="follow-btn"
+                                          onClick={() => {
+                                            UnfollowUser(item._id);
+                                          }}
+                                        >
+                                          UnFollow
+                                        </button>
+                                      ) : (
+                                        <button
+                                          className="follow-btn"
+                                          onClick={() => {
+                                            followUser(item._id);
+                                          }}
+                                        >
+                                          +Follow
+                                        </button>
+                                      )}
+                                    </div>
+                                  </li>
+                                </div>
+                              );
+                            })}
+                        </p>
+                      </div>
                       <p>
                         {user.profile && user.profile.length > 0 ? (
                           <a href={user.profile}>{user.profile}</a>

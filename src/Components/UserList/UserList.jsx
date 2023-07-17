@@ -30,59 +30,58 @@ export default function UserList() {
       </div>
       <ul>
         <h4 style={{ padding: "0.9rem" }}> people you might know</h4>
-        {userstate.users.filter((person) => person.username !== active_user.username)
+        {userstate.users
+          .filter((person) => person.username !== active_user.username)
           .map((item) => {
             return (
-              <div>
-                <li type="none" key={item._id} className="each-user">
-                  <p>
-                    <img
-                      src={item.avatar}
-                      alt=""
-                      height="50px"
-                      className="cursor"
-                      onClick={() => navigate(`/profile/${item._id}`)}
-                      style={{ borderRadius: "50%", margin: "0.7rem" }}
-                    />
+              <li type="none" key={item._id} className="each-user">
+                <p>
+                  <img
+                    src={item.avatar}
+                    alt=""
+                    height="50px"
+                    className="cursor"
+                    onClick={() => navigate(`/profile/${item._id}`)}
+                    style={{ borderRadius: "50%", margin: "0.7rem" }}
+                  />
+                </p>
+                <div>
+                  <p
+                    className="otheruser-pills cursor"
+                    onClick={() => navigate(`/profile/${item._id}`)}
+                  >
+                    {item.firstName}
+                    {item.lastName}
                   </p>
-                  <div>
-                    <p
-                      className="otheruser-pills cursor"
-                      onClick={() => navigate(`/profile/${item._id}`)}
+                  <p
+                    className="otheruser-pills cursor"
+                    onClick={() => navigate(`/profile/${item._id}`)}
+                  >
+                    {item.username}
+                  </p>
+                </div>
+                <div>
+                  {Isfollowing(item.username) ? (
+                    <button
+                      className="follow-btn"
+                      onClick={() => {
+                        UnfollowUser(item._id);
+                      }}
                     >
-                      {item.firstName}
-                      {item.lastName}
-                    </p>
-                    <p
-                      className="otheruser-pills cursor"
-                      onClick={() => navigate(`/profile/${item._id}`)}
+                      UnFollow
+                    </button>
+                  ) : (
+                    <button
+                      className="follow-btn"
+                      onClick={() => {
+                        followUser(item._id);
+                      }}
                     >
-                      {item.username}
-                    </p>
-                  </div>
-                  <div>
-                    {Isfollowing(item.username) ? (
-                      <button
-                        className="follow-btn"
-                        onClick={() => {
-                          UnfollowUser(item._id);
-                        }}
-                      >
-                        UnFollow
-                      </button>
-                    ) : (
-                      <button
-                        className="follow-btn"
-                        onClick={() => {
-                          followUser(item._id);
-                        }}
-                      >
-                        +Follow
-                      </button>
-                    )}
-                  </div>
-                </li>
-              </div>
+                      +Follow
+                    </button>
+                  )}
+                </div>
+              </li>
             );
           })}
       </ul>
