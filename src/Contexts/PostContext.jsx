@@ -16,7 +16,6 @@ export default function Postprovider({ children }) {
     isPostLoading: false,
     allpost: [],
     curr_user_post: [],
-    
   };
   const [displayedit, setDisplatedit] = useState(false);
   const [postmedia, setPostmedia] = useState("");
@@ -30,8 +29,8 @@ export default function Postprovider({ children }) {
       headers: curr_token,
     });
     if (response.status === 200) {
-      postDispatch({ type: "loading_post", payload: false });
       postDispatch({ type: "set_post", payload: response.data.posts });
+      postDispatch({ type: "loading_post", payload: false });
     }
   };
 
@@ -55,13 +54,13 @@ export default function Postprovider({ children }) {
   //api call for creating the post
   const createPost = async (e, posttext, reset) => {
     e.preventDefault();
-    const postMessage = e.target.elements.post_text.value;
+  const postMessage = e.target.elements.post_text.value;
     const resetter = e.target.elements.reset;
     postDispatch({ type: "loading_post", payload: true });
 
     try {
       const media_info = await createMediaURL(postmedia);
-      console.log(media_info?.name, media_info?.type);
+      //console.log(media_info?.name, media_info?.type);
       const response = await fetch("/api/posts", {
         method: "POST",
         headers: { authorization: curr_token },
@@ -69,16 +68,16 @@ export default function Postprovider({ children }) {
           postData: {
             content: postMessage,
             post_img: media_info.name,
-            media_type: media_info.type,
+            media_type: media_info.type, 
           },
         }),
       });
-      //console.log( await response.json());
       const temp = await response.json();
-      console.log(temp.posts);
+      //console.log(temp.posts);
       if (response.status === 201) {
         postDispatch({ type: "loading_post", payload: false });
         postDispatch({ type: "set_post", payload: temp.posts });
+        setPostmedia("")
         resetter.click();
       }
       if (response.status === 500) {
@@ -158,20 +157,31 @@ export default function Postprovider({ children }) {
   //api call to edit a post
   const postEdit = async (id, e, isImg) => {
     e.preventDefault();
+    console.log(isImg);
     const resetter = e.target.elements.reset;
-    const temp_postImg = isImg ? e.target.elements?.post_img : null;
-    const temp_postText = e.target.elements?.post_edit.value;
+    //console.log(temp_postImg);
     try {
+      const media_info = await createMediaURL(postmedia);
+      const temp_postText = e.target.elements?.post_edit.value;
+      const temp_postImg = isImg ? media_info.name : null;
+      const temp_media_type = isImg ? media_info.type : null;
+      //console.log(temp_postImg,temp_media_type,temp_postText)
       const response = await fetch(`/api/posts/edit/${id}`, {
         method: "POST",
         headers: {
           authorization: curr_token,
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
-          postData: { content: temp_postText, post_img: temp_postImg },
+          postData: {
+            content: temp_postText,
+            post_img: temp_postImg,
+            media_type: temp_media_type,
+          },
         }),
+
+        // post_img: media_info.name,
+        // media_type: media_info.typ
       });
       const data = await response.json();
       postDispatch({ type: "set_post", payload: data.posts });
@@ -202,7 +212,7 @@ export default function Postprovider({ children }) {
   };
 
   const createMediaURL = async (media) => {
-    console.log(media, "media");
+    //console.log(media, "media");
     if (
       media.name === undefined ||
       media.name.length === 0 ||
@@ -215,9 +225,7 @@ export default function Postprovider({ children }) {
     formData.append("file", media);
     formData.append("upload_preset", process.env.REACT_APP_CLOUDINARY_PRESET);
     formData.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
-    console.log("before try");
     try {
-      console.log("indise try");
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/${mediaType}/upload`,
         {
@@ -227,8 +235,7 @@ export default function Postprovider({ children }) {
       );
 
       const temp = await response.json();
-      console.log(temp);
-      console.log(mediaType);
+      //  console.log(temp);
       const { secure_url } = temp;
 
       const return_value = { name: secure_url, type: mediaType };
@@ -251,13 +258,19 @@ export default function Postprovider({ children }) {
     const temp = postState.allpost.sort(
       (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
     );
+    console.log(temp)
+
     return postDispatch({ type: "set_post", payload: temp });
   };
 
   useEffect(() => {
-    getAllPosts();
     getcurruserPost(active_user?.username);
   }, [active_user]);
+  
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+  console.log("postloading",postState.isPostLoading)
   return (
     <PostContext.Provider
       value={{

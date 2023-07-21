@@ -21,6 +21,7 @@
 }
 .post-upper {
   display: flex;
+  justify-content: space-between;
 }
 .post-content{
   text-align: left;

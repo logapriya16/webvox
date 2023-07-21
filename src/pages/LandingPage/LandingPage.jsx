@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./LandingPage.css";
@@ -16,7 +16,7 @@ export default function LandingPage() {
   const { active_user } = useContext(AuhtContext);
   const { postState } = useContext(PostContext);
   const navigate = useNavigate();
-  const [displayposts, setDisplayposts] = useState([]);
+  const [followers, setFollowers] = useState([]);
   // const LandingPagePost = postState.allpost.filter(
   //   (post) => post.username === active_user.username
   // )
@@ -28,7 +28,16 @@ export default function LandingPage() {
   //   );
   //   return isFollower ? setDisplayposts(isFollower) : null;
   // });
- //console.log(displayposts);
+  //console.log(displayposts);
+  console.log(followers)
+  useEffect(() => {
+    active_user.following.map((user) => {
+      const isFollower = postState.allpost.filter(
+        (post) => post.username === user.username
+      );
+      setFollowers(isFollower);
+    });
+  }, [active_user]);
   return (
     <div>
       <UpperNav />
@@ -54,19 +63,19 @@ export default function LandingPage() {
                 <Newpost />
               </div>
             </div>
-            {postState.allpost.map((post) =>
-              post.username === active_user.username ? (
+            {postState.allpost.map((post) => {
+              return post.username === active_user.username || followers ? (
                 <PostDisplay item={post} />
-              ) :
-              null
-            )}
-            {active_user.following.map((user) => {
-              const isFollower = postState.allpost.find(
-                (post) => post.username === user.username
-              );
-
-              return isFollower ? <PostDisplay item={isFollower} /> : null;
+              ) : null;
             })}
+            {/* {active_user.following.map((user) => {
+              const isFollower = postState.allpost.find(
+                (post) => post.username === user.username || post.username === active_user.username
+              );
+                console.log(isFollower)
+              return isFollower ? <PostDisplay item={isFollower} /> : null;
+
+            })} */}
           </div>
           <div className="users-list">
             <UserList />

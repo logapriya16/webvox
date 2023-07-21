@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
@@ -14,7 +14,7 @@ import { UserContext } from "../Contexts/UserContext";
 export default function UpperNav() {
   const navigate = useNavigate();
   const { active_user } = useContext(AuhtContext);
-  const { handleTheme, className, theme, setTheme } = useContext(UserContext);
+  const { handleTheme, className, theme, setTheme,HandleSearch } = useContext(UserContext);
   useEffect(() => {
     document.body.className = className;
   }, [className]);
@@ -24,7 +24,7 @@ export default function UpperNav() {
       <h1 className="brand-name" onClick={() => navigate("/")}>
         WebVox
       </h1>
-      <input className="nav-search" type="search" placeholder="search user" />
+      <input className="nav-search" type="search" placeholder="search user"  onChange={(e)=>HandleSearch(e.target.value)}/>
       <div className="nav-elements">
         <span onClick={() => navigate("/")}>
           <ImHome />

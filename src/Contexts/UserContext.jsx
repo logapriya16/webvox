@@ -9,7 +9,7 @@ import { useState } from "react";
 
 export const UserContext = createContext();
 export default function UserProvider({ children }) {
-  const { curr_token, active_user } = useContext(AuhtContext);
+  const { curr_token, active_user,authDispatch } = useContext(AuhtContext);
   const [className, setClassname] = useState("light-theme");
   const [theme, setTheme] = useState(false);
 
@@ -35,9 +35,18 @@ export default function UserProvider({ children }) {
     }
   };
   useEffect(() => {
-    userDispatch({ type: "set_bio", payload: active_user ? active_user.bio : "" });
-    userDispatch({ type: "set_portfolio", payload: active_user ? active_user.profile : "" });
-    userDispatch({ type: "set_avatar", payload: active_user ? active_user.avatar : "" });
+    // userDispatch({
+    //   type: "set_bio",
+    //   payload: active_user ? active_user.bio : "",
+    // });
+    // userDispatch({
+    //   type: "set_portfolio",
+    //   payload: active_user ? active_user.profile : "",
+    // });
+    // userDispatch({
+    //   type: "set_avatar",
+    //   payload: active_user ? active_user.avatar : "",
+    // });
 
     getallusers();
   }, []);
@@ -64,7 +73,7 @@ export default function UserProvider({ children }) {
         userDispatch({ type: "set_portfolio", payload: temp.user.profile });
         userDispatch({ type: "set_avatar", payload: temp.user.avatar });
         userDispatch({ type: "user_loading", payload: false });
-
+        authDispatch({ type: "set_user", payload: temp.user });
         localStorage.setItem("curr_user", JSON.stringify(temp.user));
         ReactToastify("Profile updated", "success");
       }
@@ -73,10 +82,8 @@ export default function UserProvider({ children }) {
       console.log(error);
     }
   };
-  console.log(userstate);
   useEffect(() => {
-    console.log(userstate);
-  }, [userstate]);
+   }, [userstate]);
   const handleTheme = () => {
     if (theme === false) {
       setClassname("dark-theme");
@@ -84,12 +91,24 @@ export default function UserProvider({ children }) {
       setClassname("light-theme");
     }
   };
+  const HandleSearch = (text) => {
+    userDispatch({ type: "user_loading", payload: true });
+
+    const temp =
+      text.length > 0
+        ? userstate.users.filter((person) =>
+            person.username.toLowerCase().includes(text.toLowerCase())
+          )
+        : userstate.users;
+    userDispatch({ type: "set_users", payload: temp });
+    userDispatch({ type: "user_loading", payload: false });
+  };
 
   //console.log(active_user?.avatar)
 
   return (
     <UserContext.Provider
-      value={{ userstate, EditUser, handleTheme, className, theme, setTheme }}
+      value={{ userstate, EditUser, handleTheme, className, theme, setTheme ,HandleSearch}}
     >
       {children}
     </UserContext.Provider>

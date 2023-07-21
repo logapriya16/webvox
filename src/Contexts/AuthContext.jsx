@@ -68,7 +68,6 @@ useEffect(()=>{},[authState])
           "curr_user",
           JSON.stringify(response.data?.createdUser)
         );
-
         authDispatch({ type: "set_user", payload: response.data?.createdUser });
         navigate(location?.state?.from?.pathname || "/");
         ReactToastify(
@@ -136,10 +135,10 @@ useEffect(()=>{},[authState])
         ReactToastify(`followed ${temp.followUser.username}`, "info");
       }
       if (response.status === 400) {
-        temp.errors.map((e) => ReactToastify(e, "warn"));
+        temp.errors.map((e) => ReactToastify(`${response.status} e `, "warn"));
       }
       if (response.status === 404) {
-        temp.errors.map((e) => ReactToastify(e, "warn"));
+        temp.errors.map((e) => ReactToastify(`${response.status} e`, "warn"));
       }
     } catch (error) {
       console.log("error while following a user", error);

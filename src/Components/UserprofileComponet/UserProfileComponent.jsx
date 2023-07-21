@@ -19,7 +19,7 @@ import { Button, Modal } from "antd";
 import PostDisplay from "../PostDisplay/PostDisplay";
 
 export default function ProfileComponent() {
-  const { active_user } = useContext(AuhtContext);
+  const { authState,active_user} = useContext(AuhtContext);
   const { postState } = useContext(PostContext);
   const { EditUser } = useContext(UserContext);
   const [editbio, setEditbio] = useState(false);
@@ -37,14 +37,14 @@ export default function ProfileComponent() {
   return (
     <div className="curr-us-pro">
       <ul>
-        <h1 style={{ textAlign: "left" }}>{active_user.username}</h1>
+        <h1 style={{ textAlign: "left" }}>{authState.user.username}</h1>
 
         <div className="profile-upper">
           <div className="profile-avatar">
             <Avatar
               size={64}
               icon={<UserOutlined />}
-              src={active_user.avatar}
+              src={authState.user.avatar}
             />
             <Modal
               title="Choose you avatar"
@@ -102,7 +102,7 @@ export default function ProfileComponent() {
               type="text"
               className=" user-info-input"
               placeholder="add your portfolio link"
-              defaultValue={active_user.profile}
+              defaultValue={authState.user.profile}
               id="user_portfolio"
             />
             <input
@@ -110,7 +110,7 @@ export default function ProfileComponent() {
               className=" user-info-input"
               id="user_bio"
               placeholder="tell others about yourself"
-              defaultValue={active_user.bio}
+              defaultValue={authState.user.bio}
             />
             <button
               className="bio-btn"
@@ -122,17 +122,17 @@ export default function ProfileComponent() {
           </form>
 
           <div>
-            <p>{active_user?.username}</p>
+            <p>{authState.user?.username}</p>
             <p>
-              {active_user.profile && active_user?.profile.length > 0 ? (
-                <a href={active_user.profile}>{active_user.profile}</a>
+              {authState.user.profile && authState.user?.profile.length > 0 ? (
+                <a href={authState.user.profile}>{authState.user.profile}</a>
               ) : (
                 "My Portfolio"
               )}
             </p>
             <p>
-              {active_user.bio && active_user?.bio.length > 0
-                ? active_user.bio
+              {authState.user.bio && authState.user?.bio.length > 0
+                ? authState.user.bio
                 : "My Bio"}
             </p>
           </div>
