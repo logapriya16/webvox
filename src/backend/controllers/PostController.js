@@ -91,9 +91,13 @@ export const createPostHandler = function (schema, request) {
       },
       username: user.username,
       createdAt: new Date(),
+      createdAt_format: new Intl.DateTimeFormat("en-GB", {
+        dateStyle: "long",
+        timeZone: "Australia/Sydney",
+      }).format(new Date()),
       updatedAt: new Date(),
     };
-    console.log(post)
+    //console.log(post)
 
     this.db.posts.insert(post);
     return new Response(201, {}, { posts: this.db.posts });
