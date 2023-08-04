@@ -9,9 +9,10 @@ import { useState } from "react";
 
 export const UserContext = createContext();
 export default function UserProvider({ children }) {
-  const { curr_token, active_user,authDispatch } = useContext(AuhtContext);
+  const { curr_token, active_user, authDispatch } = useContext(AuhtContext);
   const [className, setClassname] = useState("light-theme");
   const [theme, setTheme] = useState(false);
+  const [search, setSearch] = useState("");
 
   const userInitial = {
     user_loading: false,
@@ -21,6 +22,8 @@ export default function UserProvider({ children }) {
     userAvatar: active_user ? active_user.avatar : "",
   };
   const [userstate, userDispatch] = useReducer(userReducer, userInitial);
+  const [filteredusers, setFilteredusers] = useState([]);
+  console.log(filteredusers);
   const getallusers = async () => {
     try {
       const response = await axios.get("/api/users", {});
@@ -28,28 +31,13 @@ export default function UserProvider({ children }) {
       userDispatch({ type: "user_loading", payload: true });
       if (response.status === 200) {
         userDispatch({ type: "set_users", payload: response.data.users });
+        setFilteredusers(response.data.users);
         userDispatch({ type: "user_loading", payload: false });
       }
     } catch (error) {
       console.log("error while fetching users from BD", error);
     }
   };
-  useEffect(() => {
-    // userDispatch({
-    //   type: "set_bio",
-    //   payload: active_user ? active_user.bio : "",
-    // });
-    // userDispatch({
-    //   type: "set_portfolio",
-    //   payload: active_user ? active_user.profile : "",
-    // });
-    // userDispatch({
-    //   type: "set_avatar",
-    //   payload: active_user ? active_user.avatar : "",
-    // });
-
-    getallusers();
-  }, []);
 
   const EditUser = async (e) => {
     e.preventDefault();
@@ -82,8 +70,7 @@ export default function UserProvider({ children }) {
       console.log(error);
     }
   };
-  useEffect(() => {
-   }, [userstate]);
+  useEffect(() => {}, [userstate]);
   const handleTheme = () => {
     if (theme === false) {
       setClassname("dark-theme");
@@ -91,24 +78,36 @@ export default function UserProvider({ children }) {
       setClassname("light-theme");
     }
   };
-  const HandleSearch = (text) => {
-    userDispatch({ type: "user_loading", payload: true });
-
+  useEffect(() => {
+    getallusers();
+  }, []);
+  const HandleSearch = () => {
+    console.log(search.length, search);
     const temp =
-      text.length > 0
-        ? userstate.users.filter((person) =>
-            person.username.toLowerCase().includes(text.toLowerCase())
-          )
+      search.length > 0
+        ?
+          filteredusers.filter((person) =>
+            person.firstName.toLowerCase().includes(search.toLowerCase())
+          ) 
         : userstate.users;
-    userDispatch({ type: "set_users", payload: temp });
-    userDispatch({ type: "user_loading", payload: false });
+    setFilteredusers(temp);
   };
-
-  //console.log(active_user?.avatar)
 
   return (
     <UserContext.Provider
-      value={{ userstate, EditUser, handleTheme, className, theme, setTheme ,HandleSearch}}
+      value={{
+        userstate,
+        userDispatch,
+        EditUser,
+        handleTheme,
+        className,
+        theme,
+        setTheme,
+        HandleSearch,
+        search,
+        setSearch,
+        filteredusers,
+      }}
     >
       {children}
     </UserContext.Provider>

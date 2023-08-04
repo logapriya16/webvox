@@ -1,32 +1,28 @@
 .login-container {
-  display: flex;
   gap: 5rem;
   margin: 2rem;
   align-items: center;
+}
+.main {
+  height: 50vh;
+  width: 50%;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  text-align: center;
+  margin: auto;
 }
-
-.main{
-  height:100vh;
-  width:50%;  
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-h2{
-  text-align:center;
+h2 {
+  text-align: center;
   text-transform: uppercase;
-  color: var(--primary-color); 
-  font-size: 4rem;
+  color: var(--primary-color);
 }
-
-.roller{
+.roller {
   height: 4.5rem;
   font-size: 2.5rem;
   line-height: 4rem;
   position: relative;
-  overflow: hidden; 
+  overflow: hidden;
   width: 100%;
   text-transform: lowercase;
   display: flex;
@@ -34,76 +30,18 @@ h2{
   align-items: center;
   color: var(--third-color);
 }
-
-
-#spare-time{
+#spare-time {
   font-size: 0.95rem;
   font-style: italic;
   letter-spacing: 1rem;
   margin-top: 0;
-  color:var(--secondary-color);
-
+  color: var(--secondary-color);
 }
-
 .roller #rolltext {
-  position: absolute;
   top: 0;
-  animation: slide 5s infinite;  
+  position: absolute;
+  animation: slide 5s infinite;
 }
-
-@keyframes slide {
-  0%{
-    top:0;
-  }
-  25%{
-    top: -4rem;    
-  }
-  50%{
-    top: -8rem;
-  }
-  72.5%{
-    top: -12.25rem;
-  }
-}
-
-@media screen and (max-width: 600px){
-  h2{
-  text-align:center;
-  text-transform: uppercase;
-  color: var(--primary-color); 
-  font-size: 2.125rem;
-}
-  
-  .roller{
-  height: 2.6rem; 
-  line-height: 2.125rem;  
-  }
-  
-  #spare-time {
-    font-size: 1rem;
-    letter-spacing: 0.1rem;
-  }
-  
-  .roller #rolltext {  
-  animation: slide-mob 5s infinite;  
-}
-  
-  @keyframes slide-mob {
-  0%{
-    top:0;
-  }
-  25%{
-    top: -2.125rem;    
-  }
-  50%{
-    top: -4.25rem;
-  }
-  72.5%{
-    top: -6.375rem;
-  }
-}
-}
-
 .login-card {
   background: var(--third-color);
   inset: 4px;
@@ -111,6 +49,7 @@ h2{
   border-radius: 8px;
   z-index: 2;
   display: flex;
+  margin: auto;
   flex-direction: column;
   width: fit-content;
   border: 1px solid var(--primary-color);
@@ -152,9 +91,71 @@ h2{
   font-size: medium;
   border-radius: 12px;
 }
-.auth-icons{
+.auth-icons {
   color: var(--secondary-color);
   font-size: x-large;
   font-weight: bolder;
+}
 
+@keyframes slide {
+  0% {
+    top: 0;
+  }
+  25% {
+    top: -4rem;
+  }
+  50% {
+    top: -8rem;
+  }
+  72.5% {
+    top: -12.25rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .brand {
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    font-size: 6rem;
+  }
+  .login-card {
+    width: 90%;
+  }
+  .auth-btn {
+    width: 60%;
+    border-radius: 0;
+    padding: 1rem;
+    display: inline;
+    height: max-content;
+  }
+  @keyframes slide-mob {
+    0% {
+      top: 0;
+    }
+    25% {
+      top: -2.125rem;
+    }
+    50% {
+      top: -4.25rem;
+    }
+    72.5% {
+      top: -6.375rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .login-container {
+    display: flex;
+  }
+  h2 {
+    font-size: 10rem;
+  }
+  .login-card{
+    width: fit-content;
+  }
+  .auth-btn{
+    border-radius: 20px;
+  }
 }

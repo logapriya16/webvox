@@ -1,7 +1,44 @@
-.bookmark-container{
-    display: flex;
-    justify-content: space-between;
+.bookmark-container {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column-reverse;
+  justify-content: space-between;
 }
-.bookmark-area{
-    width: 100%;
+.gap {
+  padding: 10rem;
+}
+.side-nav {
+  flex: 10%;
+}
+.bookmark-area {
+  flex: 90%;
+}
+@media screen and (min-width: 768px) {
+  .bookmark-container {
+    display: flex;
+    flex-direction: row;
+   
+  }
+  .side-nav {
+    flex: 20%;
+  }
+  .bookmark-area {
+    flex: 80%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .bookmark-container {
+    display: flex;
+    flex-direction: row;
+  }
+  .side-nav {
+    flex: 10%;
+  }
+  .bookmark-area {
+    flex: 70%;
+  }
+  .users-list {
+    flex: 20%;
+  }
 }

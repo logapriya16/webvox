@@ -1,25 +1,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Belanosima&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Skranji:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Vinyl&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Skranji:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Vinyl&display=swap");
 :root {
   --primary-color: #db2777;
   --secondary-color: #ec4899;
   --third-color: #fbcfe8;
-  ---post-bg:rgba(236, 72, 153, 0.06)
+  ---post-bg: rgba(236, 72, 153, 0.06);
 }
-.brand{
-  font-family: 'Rubik Vinyl', cursive;
+.brand {
+  font-family: "Rubik Vinyl", cursive;
   font-weight: bolder;
-  font-size: 7rem;
+  font-size: 4rem;
+}
+.hide {
+  display: none;
+}
+.hide2 {
+  display: none;
 }
 .App {
   text-align: center;
   font-family: "Belanosima", sans-serif;
 }
 .dark-theme {
-  background-color: rgba(20, 17, 17,0.95);
+  background-color: rgba(20, 17, 17, 0.95);
   color: white;
-  --third-color:rgb(241, 146, 194);
+  --third-color: rgb(241, 146, 194);
   --post-bg: #ec4899;
 }
 .light-theme {
@@ -44,16 +50,22 @@
 .cursor {
   cursor: pointer;
 }
-.flex{
+.flex {
   display: flex;
 }
 /* media queries */
-@media (max-width<600px) {
-  .App{
-    font-size: 200px;
+@media (min-width: 768px) {
+  .hide {
+    display: inline;
   }
 }
-@media( max-width<768px){
+@media screen and (min-width:1024px) {
+  .hide2{
+    display: inline;
+  }
+  
+}
+/*@media( max-width<768px){
 
 }
 @media(max-width<992px){
@@ -61,4 +73,4 @@
 }
 @media(max-width<1200px){
   
-}
+} */

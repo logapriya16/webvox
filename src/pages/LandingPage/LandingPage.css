@@ -1,12 +1,13 @@
 .landing-body{
     display: flex;
-    justify-content: space-between;
+    gap: 1.5rem;
+    flex-direction: column-reverse;
 }
 .new-post {
     margin: 0.6rem;
     padding: 1rem;
     width: 100%;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: left;
     justify-content: center;
@@ -18,4 +19,20 @@
 }
 .post-area{
     width: 100%;
+}
+@media screen and (min-width : 768px)  {
+    .landing-body{
+        display: flex;
+        gap: 1.5rem;
+        flex-direction: row;
+        justify-content: space-between;
+        /* background-color: aqua; */
+    }
+}
+@media screen and (min-width:1024px) {
+    .landing-body{
+        display: flex;
+        flex-direction: row;
+        /* background-color: aquamarine; */
+    }
 }

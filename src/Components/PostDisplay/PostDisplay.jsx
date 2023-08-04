@@ -53,7 +53,7 @@ export default function PostDisplay({ item }) {
   // ];
   return (
     <div>
-      <ul className="post-area">
+      <ul className="posts-area">
         {postState.allpost.map((post) =>
           post._id === item._id ? (
             <li key={post.username} type="none" className="post-container">
@@ -87,11 +87,12 @@ export default function PostDisplay({ item }) {
 
                   <div
                     style={{
-                      textAlign:"left"
+                      textAlign: "left",
                     }}
                   >
                     <span>{post.username}</span>
-                    <br /><br/>
+                    <br />
+                    <br />
                     <div className="flex">
                       <span className="flex">
                         <MdOutlineDateRange /> {post.createdAt_format}
@@ -158,6 +159,7 @@ export default function PostDisplay({ item }) {
                     <img
                       src={post.post_img}
                       id="post_img"
+                      className="post-media"
                       alt=""
                       height="450px"
                       width="450px"
@@ -207,23 +209,20 @@ export default function PostDisplay({ item }) {
                 <p className="post-content">{post.content}</p>
                 <div
                   className="post-middle"
-                  style={{ display: displayedit ? "none" : "block" ,padding:"0.5rem"}}
+                  style={{
+                    display: displayedit ? "none" : "block",
+                    padding: "0.5rem",
+                  }}
                 >
                   {post.post_img ? (
                     post.media_type === "video" ? (
                       <video
                         src={post.post_img}
-                        width="450"
-                        height="450"
+                        className="post-media"
                         controls
                       />
                     ) : (
-                      <img
-                        src={post.post_img}
-                        alt=""
-                        height="450px"
-                        width="450px"
-                      />
+                      <img src={post.post_img} alt="" className="post-media" />
                     )
                   ) : null}
                 </div>

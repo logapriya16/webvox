@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import "./LandingPage.css";
 import Navbar from "../../Components/Navbar/Navbar";
@@ -10,33 +11,33 @@ import PostDisplay from "../../Components/PostDisplay/PostDisplay";
 
 import { AuhtContext } from "../../Contexts/AuthContext";
 import { PostContext } from "../../Contexts/PostContext";
-import { useState } from "react";
 
 export default function LandingPage() {
   const { active_user } = useContext(AuhtContext);
   const { postState } = useContext(PostContext);
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
-  // const LandingPagePost = postState.allpost.filter(
-  //   (post) => post.username === active_user.username
-  // )
-  // setDisplayposts(LandingPagePost)
-
-  // const LandingPagePosts = active_user.following.map((user) => {
-  //   const isFollower = postState.allpost.find(
-  //     (post) => post.username === user.username
-  //   );
-  //   return isFollower ? setDisplayposts(isFollower) : null;
-  // });
-  //console.log(displayposts);
-  console.log(followers)
+  const [homepost, setHomepost] = useState([]);
+  const IsFollowers = active_user.following.map((user) => user.username);
+  const filterHomePost = followers.map((follower) =>
+    postState.allpost.map((post) => {
+      return post.username === follower ? post : null;
+    })
+  );
+  // console.log(
+  //   followers.map((follower) =>
+  //     postState.allpost.map((post) => {
+  //       return post.username === active_user.username ||
+  //         post.username === follower
+  //         ? post
+  //         : null;
+  //     })
+  //   )
+  // );
+  console.log(homepost)
   useEffect(() => {
-    active_user.following.map((user) => {
-      const isFollower = postState.allpost.filter(
-        (post) => post.username === user.username
-      );
-      setFollowers(isFollower);
-    });
+    setFollowers(IsFollowers);
+    setHomepost(filterHomePost);
   }, [active_user]);
   return (
     <div>
@@ -47,7 +48,7 @@ export default function LandingPage() {
             <Navbar />
           </div>
           <div className="post-area">
-            <div className="new-post">
+            <div className="new-post ">
               <div className="landing-profile">
                 <img
                   className="cursor"
@@ -63,21 +64,11 @@ export default function LandingPage() {
                 <Newpost />
               </div>
             </div>
-            {postState.allpost.map((post) => {
-              return post.username === active_user.username || followers ? (
-                <PostDisplay item={post} />
-              ) : null;
-            })}
-            {/* {active_user.following.map((user) => {
-              const isFollower = postState.allpost.find(
-                (post) => post.username === user.username || post.username === active_user.username
-              );
-                console.log(isFollower)
-              return isFollower ? <PostDisplay item={isFollower} /> : null;
-
-            })} */}
+            {postState.allpost.map((post) => (
+              <PostDisplay item={post} />
+            ))}
           </div>
-          <div className="users-list">
+          <div className="users-list hide2">
             <UserList />
           </div>
         </div>

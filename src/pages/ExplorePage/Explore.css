@@ -1,7 +1,25 @@
+.explore-area {
+  width: 100%;
+}
 .explore-container{
     display: flex;
-    justify-content: space-between;
+    gap: 1.5rem;
+    flex-direction: column-reverse;
 }
-.explore-area{
-    width: 100%;
+
+@media screen and (min-width:768px) {
+  .explore-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: space-between;
+    /* background-color: aqua; */
+  }
+}
+@media screen and (min-width:1024px) {
+  .explore-container{
+    display: flex;
+    flex-direction: row;
+    /* background-color: tomato; */
+  }
 }

@@ -20,7 +20,7 @@ export default function Explore() {
             <PostDisplay item={post} />
           ))}
         </div>
-        <div className="users-list">
+        <div className="users-list hide2">
           <UserList />
         </div>
       </div>

@@ -1,117 +1,50 @@
 .signup-container {
-  display: flex;
-  align-items:center;
-  gap:4rem;
-  justify-content: center;
+  align-items: center;
+  gap: 4rem;
 }
 .signup-card {
   margin: 1.5rem;
   background: var(--third-color);
   inset: 4px;
-  padding: 0.2rem 4rem ;
+  margin: auto;
+  padding: 0.2rem 4rem;
   border-radius: 8px;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  width:fit-content;
+  width: fit-content;
   border: 1px solid var(--primary-color);
 }
-.main{
-  height:100vh;
-  width:50%;  
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+
+@media screen and (min-width: 768px) {
+  .signup-card {
+    width: 80%;
+    border-bottom:2rem ;
+  }
 }
-h2{
-  text-align:center;
-  text-transform: uppercase;
-  color: var(--primary-color); 
-  font-size: 4rem;
-}
-
-.roller{
-  height: 4.5rem;
-  font-size: 2.5rem;
-  line-height: 4rem;
-  position: relative;
-  overflow: hidden; 
-  width: 100%;
-  text-transform: lowercase;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--third-color);
-}
-
-
-#spare-time{
-  font-size: 0.95rem;
-  font-style: italic;
-  letter-spacing: 1rem;
-  margin-top: 0;
-  color:var(--secondary-color);
-
-}
-
-.roller #rolltext {
-  position: absolute;
-  top: 0;
-  animation: slide 5s infinite;  
+@media screen and (min-width: 1024px) {
+  .signup-container {
+    display: flex;
+  }
+  h2 {
+    font-size: 10rem;
+  }
+  .signup-card{
+    width: fit-content;
+  }
 }
 
 @keyframes slide {
-  0%{
-    top:0;
+  0% {
+    top: 0;
   }
-  25%{
-    top: -4rem;    
+  25% {
+    top: -4rem;
   }
-  50%{
+  50% {
     top: -8rem;
   }
-  72.5%{
+  72.5% {
     top: -12.25rem;
   }
 }
-
-@media screen and (max-width: 600px){
-  h2{
-  text-align:center;
-  text-transform: uppercase;
-  color: var(--primary-color); 
-  font-size: 2.125rem;
-}
-  
-  .roller{
-  height: 2.6rem; 
-  line-height: 2.125rem;  
-  }
-  
-  #spare-time {
-    font-size: 1rem;
-    letter-spacing: 0.1rem;
-  }
-  
-  .roller #rolltext {  
-  animation: slide-mob 5s infinite;  
-}
-  
-  @keyframes slide-mob {
-  0%{
-    top:0;
-  }
-  25%{
-    top: -2.125rem;    
-  }
-  50%{
-    top: -4.25rem;
-  }
-  72.5%{
-    top: -6.375rem;
-  }
-}
-}
-
-

@@ -3,7 +3,7 @@ import { Slide, toast } from "react-toastify";
 export const ReactToastify = (msg, type) => {
   const options = {
     position: "top-right",
-    autoClose: 3000,
+    autoClose: 100,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

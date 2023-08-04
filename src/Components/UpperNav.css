@@ -17,11 +17,13 @@
     display: inline;
     padding: 0.5rem;
     width: 50%;
-    border-radius: 20px;
+    border: 0;
+    border-bottom: 1.5px solid var(--primary-color);
+    border-radius: 7px;
     margin:2rem;
 }
 .nav-elements{
-    display: inline;
+    display: flex;
     padding: 1rem;
     color: var(--primary-color);
     

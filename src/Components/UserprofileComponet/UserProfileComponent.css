@@ -33,3 +33,15 @@
   padding: 1rem;
   display: flex;
 }
+.profile-lower{
+  
+  text-align: left;
+}
+.hover{
+  display: none;
+}
+.profile-lower:hover{
+.hover{
+  display: block;
+}
+}

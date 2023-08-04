@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-
 import { AuhtContext } from "../../Contexts/AuthContext";
 import { PostContext } from "../../Contexts/PostContext";
 import { UserContext } from "../../Contexts/UserContext";
@@ -16,10 +15,10 @@ import { BsPencilSquare } from "react-icons/bs";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import PostDisplay from "../PostDisplay/PostDisplay";
+
 
 export default function ProfileComponent() {
-  const { authState,active_user} = useContext(AuhtContext);
+  const { authState, active_user } = useContext(AuhtContext);
   const { postState } = useContext(PostContext);
   const { EditUser } = useContext(UserContext);
   const [editbio, setEditbio] = useState(false);
@@ -36,115 +35,119 @@ export default function ProfileComponent() {
   };
   return (
     <div className="curr-us-pro">
-      <ul>
-        <h1 style={{ textAlign: "left" }}>{authState.user.username}</h1>
+      <h1 style={{ textAlign: "left" }}>{authState.user.username}</h1>
 
-        <div className="profile-upper">
-          <div className="profile-avatar">
-            <Avatar
-              size={64}
-              icon={<UserOutlined />}
-              src={authState.user.avatar}
-            />
-            <Modal
-              title="Choose you avatar"
-              open={isModalOpen}
-              onOk={handleOk}
-              onCancel={handleCancel}
-            >
-              {imagesarray.map((image) => {
-                return (
-                  <img
-                    src={image}
-                    alt=""
-                    id="avatar"
-                    onClick={(e) => {
-                      EditUser(e);
-                      //console.log(e.target.src);
-                      //handleAvatarchange(e,image);
-                    }}
-                    height="100px"
-                    style={{ borderRadius: "50%", margin: "0.7rem" }}
-                  />
-                );
-              })}
-            </Modal>
-            <br />
-            <br />
-            <Button onClick={() => showModal()}>Change Avatar</Button>
-          </div>
-          <div className="profile-followers">
-            <p style={{ padding: "0.5rem" }}>
-              Followers
-              <br /> {active_user.followers.length}
-            </p>
-            <p style={{ padding: "0.5rem" }}>
-              Following <br />
-              {active_user.following.length}
-            </p>
-            <p style={{ padding: "0.5rem" }}>
-              Posts <br />
-              {postState.curr_user_post.length}
-            </p>
-          </div>
-        </div>
-        <div className="profile-middle">
-          <BsPencilSquare onClick={() => setEditbio(true)} />
-          <form
-            onSubmit={(e) => {
-              setEditbio(false);
-              EditUser(e);
-            }}
-            className=" user-info"
-            style={{ display: editbio ? "flex" : "none" }}
+      <div className="profile-upper">
+        <div className="profile-avatar">
+          <Avatar
+            size={64}
+            icon={<UserOutlined />}
+            src={authState.user.avatar}
+          />
+          <Modal
+            title="Choose you avatar"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
           >
-            <input
-              type="text"
-              className=" user-info-input"
-              placeholder="add your portfolio link"
-              defaultValue={authState.user.profile}
-              id="user_portfolio"
-            />
-            <input
-              type="text"
-              className=" user-info-input"
-              id="user_bio"
-              placeholder="tell others about yourself"
-              defaultValue={authState.user.bio}
-            />
-            <button
-              className="bio-btn"
-              type="submit"
-              style={{ display: editbio ? "block" : "none" }}
-            >
-              Save Changes
-            </button>
-          </form>
+            {imagesarray.map((image) => {
+              return (
+                <img
+                  src={image}
+                  alt=""
+                  id="avatar"
+                  onClick={(e) => {
+                    EditUser(e);
+                    //console.log(e.target.src);
+                    //handleAvatarchange(e,image);
+                  }}
+                  height="100px"
+                  style={{ borderRadius: "50%", margin: "0.7rem" }}
+                />
+              );
+            })}
+          </Modal>
+          <br />
+          <br />
+          <Button onClick={() => showModal()}>Change Avatar</Button>
+        </div>
+        <div className="profile-followers">
+          <p style={{ padding: "0.5rem" }}>
+            Followers
+            <br /> {active_user.followers.length}
+          </p>
+          <p style={{ padding: "0.5rem" }}>
+            Following <br />
+            {active_user.following.length}
+          </p>
+          <p style={{ padding: "0.5rem" }}>
+            Posts <br />
+            {postState.curr_user_post.length}
+          </p>
+        </div>
+      </div>
+      <div className="profile-middle">
+        <BsPencilSquare onClick={() => setEditbio(true)} />
+        <form
+          onSubmit={(e) => {
+            setEditbio(false);
+            EditUser(e);
+          }}
+          className=" user-info"
+          style={{ display: editbio ? "flex" : "none" }}
+        >
+          <input
+            type="text"
+            className=" user-info-input"
+            placeholder="add your portfolio link"
+            defaultValue={authState.user.profile}
+            id="user_portfolio"
+          />
+          <input
+            type="text"
+            className=" user-info-input"
+            id="user_bio"
+            placeholder="tell others about yourself"
+            defaultValue={authState.user.bio}
+          />
+          <button
+            className="bio-btn"
+            type="submit"
+            style={{ display: editbio ? "block" : "none" }}
+          >
+            Save Changes
+          </button>
+        </form>
 
-          <div>
-            <p>{authState.user?.username}</p>
-            <p>
-              {authState.user.profile && authState.user?.profile.length > 0 ? (
-                <a href={authState.user.profile}>{authState.user.profile}</a>
-              ) : (
-                "My Portfolio"
-              )}
-            </p>
-            <p>
-              {authState.user.bio && authState.user?.bio.length > 0
-                ? authState.user.bio
-                : "My Bio"}
-            </p>
-          </div>
+        <div>
+          <p>{authState.user?.username}</p>
+          <p>
+            {authState.user.profile && authState.user?.profile.length > 0 ? (
+              <a href={authState.user.profile}>{authState.user.profile}</a>
+            ) : (
+              "My Portfolio"
+            )}
+          </p>
+          <p>
+            {authState.user.bio && authState.user?.bio.length > 0
+              ? authState.user.bio
+              : "My Bio"}
+          </p>
         </div>
-        <div className="profile-lower">
-          <ul>
-            {postState.curr_user_post.map((post) => (
-              <PostDisplay item={post} />
-            ))}
-          </ul>
-        </div>
-      </ul>
+      </div>
+      <hr />
+      <div className="profile-lower">
+        <ul>
+          {postState.curr_user_post.map((post) => {
+            return <div>
+              {/* <PostDisplay item={post}
+              className="hover"
+              /> */}
+              <img src={post.post_img} alt="" className="post-media" />
+            </div>
+          })}
+        </ul>
+      </div>
     </div>
   );
 }

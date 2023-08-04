@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuhtContext } from "../../Contexts/AuthContext";
 import { UserContext } from "../../Contexts/UserContext";
 import "./UserList.css";
@@ -9,16 +9,17 @@ import { useNavigate } from "react-router-dom";
 
 export default function UserList() {
   const { TrendingHandler, LatestHandler } = useContext(PostContext);
-  const { userstate } = useContext(UserContext);
+  const { filteredusers } = useContext(UserContext);
   const { active_user, followUser, UnfollowUser } = useContext(AuhtContext);
   const navigate = useNavigate();
   const Isfollowing = (item) =>
     active_user?.following.find((person) => person.username === item)
       ? true
       : false;
-  return (
+useEffect(()=>{},[filteredusers])
+      return (
     <div className="other-users">
-      <div>
+      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <span onClick={() => TrendingHandler()} className="sort-btn">
           <HiTrendingUp className="sort-icon" />
           Trending
@@ -28,62 +29,66 @@ export default function UserList() {
           Latest
         </span>
       </div>
-      <ul>
+      <ul type="none">
         <h4 style={{ padding: "0.9rem" }}> people you might know</h4>
-        {userstate.users
-          .filter((person) => person.username !== active_user.username)
-          .map((item) => {
-            return (
-              <li type="none" key={item._id} className="each-user">
-                <p>
-                  <img
-                    src={item.avatar}
-                    alt=""
-                    height="50px"
-                    className="cursor"
-                    onClick={() => navigate(`/profile/${item._id}`)}
-                    style={{ borderRadius: "50%", margin: "0.7rem" }}
-                  />
-                </p>
-                <div>
-                  <p
-                    className="otheruser-pills cursor"
-                    onClick={() => navigate(`/profile/${item._id}`)}
-                  >
-                    {item.firstName}
-                    {item.lastName}
+        {filteredusers.length > 0 ? (
+          filteredusers
+            .filter((person) => person.username !== active_user.username)
+            .map((item) => {
+              return (
+                <li key={item._id} className="each-user">
+                  <p>
+                    <img
+                      src={item.avatar}
+                      alt=""
+                      height="50px"
+                      className="cursor"
+                      onClick={() => navigate(`/profile/${item._id}`)}
+                      style={{ borderRadius: "50%", margin: "0.7rem" }}
+                    />
                   </p>
-                  <p
-                    className="otheruser-pills cursor"
-                    onClick={() => navigate(`/profile/${item._id}`)}
-                  >
-                    {item.username}
-                  </p>
-                </div>
-                <div>
-                  {Isfollowing(item.username) ? (
-                    <button
-                      className="follow-btn"
-                      onClick={() => {
-                        UnfollowUser(item._id);
-                      }}
+                  <div>
+                    <p
+                      className="otheruser-pills cursor"
+                      onClick={() => navigate(`/profile/${item._id}`)}
                     >
-                      UnFollow
-                    </button>
-                  ) : (
-                    <button
-                      className="follow-btn"
-                      onClick={() => {
-                        followUser(item._id);
-                      }}
+                      {item.firstName}
+                      {item.lastName}
+                    </p>
+                    <p
+                      className="otheruser-pills cursor"
+                      onClick={() => navigate(`/profile/${item._id}`)}
                     >
-                      +Follow
-                    </button>
-                  )}
-                </div>
-              </li>
-            );
-          })}
+                      {item.username}
+                    </p>
+                  </div>
+                  <div>
+                    {Isfollowing(item.username) ? (
+                      <button
+                        className="follow-btn"
+                        onClick={() => {
+                          UnfollowUser(item._id);
+                        }}
+                      >
+                        UnFollow
+                      </button>
+                    ) : (
+                      <button
+                        className="follow-btn"
+                        onClick={() => {
+                          followUser(item._id);
+                        }}
+                      >
+                        +Follow
+                      </button>
+                    )}
+                  </div>
+                </li>
+              );
+            })
+        ) : (
+          <h5>No such user found</h5>
+        )}
       </ul>
     </div>
   );

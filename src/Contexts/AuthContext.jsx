@@ -1,14 +1,23 @@
-import React, { createContext, useEffect, useReducer, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { authReducer } from "../reducers/authReducer";
 import axios from "axios";
 
 import { ReactToastify } from "../Utils/ReactToastify";
+import { UserContext } from "./UserContext";
 export const AuhtContext = createContext();
 
 function AuthProvider({ children }) {
+  //const {userstate} = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
+  //const { userDispatch } = useContext(UserContext);
 
   const [userCredentials, setUserCredentials] = useState({
     firstname: "",
@@ -32,15 +41,15 @@ function AuthProvider({ children }) {
   const Logout = () => {
     //navigate("/login");
     authDispatch({ type: "set_token", payload: "" });
-    authDispatch({type:"set_user" ,payload:{}})
+    authDispatch({ type: "set_user", payload: {} });
     localStorage.removeItem("data");
     localStorage.removeItem("curr_user");
     // authDispatch({ type: "set_avatar", payload: "" });
     ReactToastify("Logged out", "error");
   };
-useEffect(()=>{},[authState])
+  useEffect(() => {}, [authState]);
 
-//checks if user is Logged out 
+  //checks if user is Logged out
   const CheckLogin = () => {
     //console.log("inside check login")
     return localStorage.getItem("data") ? true : false;
@@ -127,10 +136,17 @@ useEffect(()=>{},[authState])
         headers: { authorization: curr_token },
       });
       const temp = await response.json();
-      //console.log(temp);
+    // const temp1 = userstate.users.reduce((acc, curr) => {
+    //     return curr.username === temp.followUser.username
+    //       ? [...temp1, followUser]
+    //       : [...temp1];
+    //   });
+    //   console.log(temp);
+    //   console.log(temp1);
       if (response.status === 200) {
         authDispatch({ type: "set_user", payload: temp.user });
         localStorage.setItem("curr_user", JSON.stringify(temp.user));
+        //userDispatch({ type: "set_users", payload: temp1 });
         authDispatch({ type: "set_loading", payload: false });
         ReactToastify(`followed ${temp.followUser.username}`, "info");
       }

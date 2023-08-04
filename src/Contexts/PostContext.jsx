@@ -16,6 +16,7 @@ export default function Postprovider({ children }) {
     isPostLoading: false,
     allpost: [],
     curr_user_post: [],
+    homepage_posts:[]
   };
   const [displayedit, setDisplatedit] = useState(false);
   const [postmedia, setPostmedia] = useState("");
@@ -270,7 +271,7 @@ export default function Postprovider({ children }) {
   useEffect(() => {
     getAllPosts();
   }, []);
-  console.log("postloading",postState.isPostLoading)
+//  console.log("postloading",postState.isPostLoading)
   return (
     <PostContext.Provider
       value={{

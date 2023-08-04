@@ -2,16 +2,13 @@
     padding: 2rem;
     text-decoration: none;
     color:var(--primary-color);
-    display: block;
+    /* display: block; */
     transition: all .5s ease 0s;
 }
 .active{
     transition: all .5s ease 0s;
     background-color:var(--third-color);
-    display: block;
-}
-.nav-container{
-    
+    /* display: block; */
 }
 .logout{
     background-color: var(--primary-color);
@@ -20,4 +17,12 @@
 }
 .logout:hover{
     background-color: var(--secondary-color);
+}
+@media screen and (min-width:768px) {
+    .nav-items{
+        display: block;
+    }
+    .active{
+        display: flex;
+    }
 }

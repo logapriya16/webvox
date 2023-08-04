@@ -16,12 +16,12 @@ export default function Bookmarks() {
     <div>
       <UpperNav />
       <div className="bookmark-container">
-        <div className="side-nav">
+        <div className="side-nav ">
           <Navbar />
         </div>
         <div className="bookmark-area">
           {bookmarkState.curr_user_bookmarks.length <= 0 ? (
-            <p>No Bookmarks Added</p>
+            <p className="gap">No Bookmarks Added</p>
           ) : (
             <ul>
               {Bookmarks.map((post) => {
@@ -37,7 +37,7 @@ export default function Bookmarks() {
             </ul>
           )}
         </div>
-        <div className="users-list">
+        <div className="users-list hide2">
           <UserList />
         </div>
       </div>

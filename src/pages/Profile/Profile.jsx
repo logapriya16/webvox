@@ -10,13 +10,13 @@ export default function Profile() {
     <div>
       <UpperNav />
       <div className="profile-container">
-        <div>
+        <div className="side-nav">
           <Navbar />
         </div>
         <div className="profile-area">
           <ProfileComponent />
         </div>
-        <div className="user-list">
+        <div className="user-list hide2">
           <UserList />
         </div>
       </div>

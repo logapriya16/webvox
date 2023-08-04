@@ -14,19 +14,40 @@ import { UserContext } from "../Contexts/UserContext";
 export default function UpperNav() {
   const navigate = useNavigate();
   const { active_user } = useContext(AuhtContext);
-  const { handleTheme, className, theme, setTheme,HandleSearch } = useContext(UserContext);
+  const {
+    handleTheme,
+    className,
+    theme,
+    setTheme,
+    HandleSearch,
+    setSearch,
+    search,
+  } = useContext(UserContext);
   useEffect(() => {
     document.body.className = className;
   }, [className]);
+  useEffect(() => {
+    HandleSearch();
+  }, [search]);
+
   return (
     <div className="upper-nav-container">
       <MdOutlineWebhook className="brand-icon" />
       <h1 className="brand-name" onClick={() => navigate("/")}>
         WebVox
       </h1>
-      <input className="nav-search" type="search" placeholder="search user"  onChange={(e)=>HandleSearch(e.target.value)}/>
+      <input
+        className="nav-search"
+        type="search"
+        placeholder="search user"
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+      />
       <div className="nav-elements">
-        <span onClick={() => navigate("/")}>
+        <span onClick={() => navigate("/")}
+        className="hide"
+        >
           <ImHome />
         </span>
         <span
@@ -42,9 +63,10 @@ export default function UpperNav() {
             style={{ borderRadius: "50%" }}
           />
         </span>
-        <span>
+        <span >
           <HiSun
             style={{ display: theme ? "none" : "inline" }}
+            
             onClick={() => {
               handleTheme();
               setTheme(!theme);
