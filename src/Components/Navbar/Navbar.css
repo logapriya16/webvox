@@ -2,10 +2,10 @@
     padding: 2rem;
     text-decoration: none;
     color:var(--primary-color);
-    /* display: block; */
     transition: all .5s ease 0s;
 }
 .active{
+    padding: 2rem;
     transition: all .5s ease 0s;
     background-color:var(--third-color);
     /* display: block; */
