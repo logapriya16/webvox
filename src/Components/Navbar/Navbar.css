@@ -11,6 +11,7 @@
     /* display: block; */
 }
 .logout{
+    padding: 2rem;
     background-color: var(--primary-color);
     border-radius: 3px;
     color: black;
